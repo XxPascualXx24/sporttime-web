@@ -9,7 +9,7 @@ const sublinks = [
   { label: 'fotogalería',         href: '#' },
 ]
 
-const POSITION_ORDER = ['Entrenadora', 'Portera', 'Defensa', 'Centrocampista', 'Delantera']
+const POSITION_ORDER = ['Portera', 'Defensa', 'Centrocampista', 'Delantera', 'Entrenadora']
 const POSITION_LABEL = {
   'Entrenadora':     'Cuerpo técnico',
   'Portera':         'Porteras',
