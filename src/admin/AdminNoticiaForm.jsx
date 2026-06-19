@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
+import { doc, collection } from 'firebase/firestore'
+import { db } from '../firebase'
 import { useNoticias } from '../context/NoticiasContext'
 import ImageUpload from './ImageUpload'
 import styles from './AdminNoticiaForm.module.css'
@@ -16,6 +18,7 @@ export default function AdminNoticiaForm() {
 
   const [form, setForm] = useState(empty)
   const [saved, setSaved] = useState(false)
+  const [newNoticiaId] = useState(() => doc(collection(db, 'noticias')).id)
 
   useEffect(() => {
     if (!isNew) {
@@ -26,13 +29,13 @@ export default function AdminNoticiaForm() {
 
   const set = (key, val) => setForm(f => ({ ...f, [key]: val }))
 
-  const handleSubmit = (e, status) => {
+  const handleSubmit = async (e, status) => {
     e.preventDefault()
     const data = { ...form, status: status ?? form.status }
     if (isNew) {
-      addNoticia(data)
+      await addNoticia(data, newNoticiaId)
     } else {
-      updateNoticia(id, data)
+      await updateNoticia(id, data)
     }
     setSaved(true)
     setTimeout(() => navigate('/admin/noticias'), 800)
@@ -65,6 +68,7 @@ export default function AdminNoticiaForm() {
             label="Imagen de portada"
             value={form.image}
             onChange={val => set('image', val)}
+            storagePath={`noticias/${isNew ? newNoticiaId : id}/cover`}
             aspect="16/9"
           />
 

@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
+import { doc, collection } from 'firebase/firestore'
+import { db } from '../firebase'
 import { useEquipos } from '../context/EquiposContext'
 import ImageUpload from './ImageUpload'
 import styles from './AdminEquipoDetalle.module.css'
@@ -25,6 +27,7 @@ export default function AdminEquipoDetalle() {
   const [editFields, setEditFields] = useState(emptyPlayer)
   const [editName, setEditName] = useState('')
   const [showForm, setShowForm] = useState(false)
+  const [newPlayerId, setNewPlayerId] = useState(() => doc(collection(db, 'jugadoras')).id)
 
   if (!equipo) {
     return (
@@ -38,9 +41,9 @@ export default function AdminEquipoDetalle() {
   const setField = (k, v) => setForm(f => ({ ...f, [k]: v }))
   const setEditField = (k, v) => setEditFields(f => ({ ...f, [k]: v }))
 
-  const handleAddPlayer = (e) => {
+  const handleAddPlayer = async (e) => {
     e.preventDefault()
-    addJugadora(id, {
+    await addJugadora(id, {
       ...form,
       number: Number(form.number),
       partidos: Number(form.partidos),
@@ -49,9 +52,10 @@ export default function AdminEquipoDetalle() {
       partidosTemp: Number(form.partidosTemp),
       golesTemp: Number(form.golesTemp),
       asistenciasTemp: Number(form.asistenciasTemp),
-    })
+    }, newPlayerId)
     setForm(emptyPlayer)
     setShowForm(false)
+    setNewPlayerId(doc(collection(db, 'jugadoras')).id)
   }
 
   const startEditName = () => setEditName(equipo.name)
@@ -74,8 +78,8 @@ export default function AdminEquipoDetalle() {
     })
   }
 
-  const saveEditPlayer = () => {
-    updateJugadora(id, editingId, {
+  const saveEditPlayer = async () => {
+    await updateJugadora(id, editingId, {
       ...editFields,
       number: Number(editFields.number),
       partidos: Number(editFields.partidos),
@@ -102,6 +106,7 @@ export default function AdminEquipoDetalle() {
             label="Foto del equipo"
             value={equipo.photo ?? null}
             onChange={val => updateEquipo(id, { photo: val })}
+            storagePath={`equipos/${id}/team`}
             aspect="16/9"
           />
         </div>
@@ -159,7 +164,7 @@ export default function AdminEquipoDetalle() {
               <div className={styles.editPanel}>
                 <div className={styles.editGrid}>
                   <div className={styles.editPhotoCol}>
-                    <ImageUpload label="Foto" value={editFields.photo} onChange={v => setEditField('photo', v)} aspect="3/4" />
+                    <ImageUpload label="Foto" value={editFields.photo} onChange={v => setEditField('photo', v)} storagePath={`jugadoras/${id}/${editingId}`} aspect="3/4" />
                   </div>
                   <div className={styles.editFields}>
                     <div className={styles.editRow}>
@@ -222,7 +227,7 @@ export default function AdminEquipoDetalle() {
           <h3 className={styles.addTitle}>Añadir jugadora</h3>
           <div className={styles.addGrid}>
             <div className={styles.addPhotoCol}>
-              <ImageUpload label="Foto" value={form.photo} onChange={v => setField('photo', v)} aspect="3/4" />
+              <ImageUpload label="Foto" value={form.photo} onChange={v => setField('photo', v)} storagePath={`jugadoras/${id}/${newPlayerId}`} aspect="3/4" />
             </div>
             <div className={styles.addFields}>
               <div className={styles.addRow}>

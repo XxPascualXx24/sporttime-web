@@ -1,34 +1,10 @@
 import { createContext, useContext, useState, useEffect } from 'react'
+import {
+  collection, doc, onSnapshot, setDoc, updateDoc, deleteDoc, getDocs, query, where,
+} from 'firebase/firestore'
+import { db } from '../firebase'
 
 const EquiposContext = createContext(null)
-
-const STORAGE_KEY = 'sportime_equipos'
-
-const defaultData = {
-  equipos: [
-    { id: 'alevin-a',   name: 'Alevín A',    photo: null },
-    { id: 'alevin-b',   name: 'Alevín B',    photo: null },
-    { id: 'juvenil-b',  name: 'Juvenil B',   photo: null },
-    { id: 'benjamin-a', name: 'Benjamín A',  photo: null },
-    { id: 'benjamin-b', name: 'Benjamín B',  photo: null },
-    { id: 'juvenil-a',  name: 'Juvenil A',   photo: null },
-  ],
-  jugadoras: {
-    'alevin-a': [
-      { id: '1', name: 'Carla',  number: 1,  position: 'Portera',        photo: null },
-      { id: '2', name: 'Sara',   number: 13, position: 'Portera',        photo: null },
-      { id: '3', name: 'Marta',  number: 8,  position: 'Defensa',        photo: null },
-      { id: '4', name: 'Noelia', number: 7,  position: 'Delantera',      photo: null },
-      { id: '5', name: 'Bea',    number: 10, position: 'Centrocampista', photo: null },
-      { id: '6', name: 'Lorena', number: 5,  position: 'Defensa',        photo: null },
-    ],
-    'alevin-b':   [],
-    'juvenil-b':  [],
-    'benjamin-a': [],
-    'benjamin-b': [],
-    'juvenil-a':  [],
-  },
-}
 
 function slugify(str) {
   return str
@@ -39,76 +15,67 @@ function slugify(str) {
 }
 
 export function EquiposProvider({ children }) {
-  const [data, setData] = useState(() => {
-    const stored = localStorage.getItem(STORAGE_KEY)
-    return stored ? JSON.parse(stored) : defaultData
-  })
+  const [equipos, setEquipos]     = useState([])
+  const [jugadoras, setJugadoras] = useState({})
+  const [loading, setLoading]     = useState(true)
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
-  }, [data])
-
-  const { equipos, jugadoras } = data
-
-  // Teams
-  const addEquipo = (name) => {
-    const id = slugify(name) + '-' + Date.now().toString(36)
-    setData(d => ({
-      equipos: [...d.equipos, { id, name, photo: null }],
-      jugadoras: { ...d.jugadoras, [id]: [] },
-    }))
-  }
-
-  const updateEquipo = (id, fields) => {
-    const update = typeof fields === 'string' ? { name: fields } : fields
-    setData(d => ({
-      ...d,
-      equipos: d.equipos.map(e => e.id === id ? { ...e, ...update } : e),
-    }))
-  }
-
-  const deleteEquipo = (id) => {
-    setData(d => {
-      const { [id]: _, ...rest } = d.jugadoras
-      return { equipos: d.equipos.filter(e => e.id !== id), jugadoras: rest }
+    const unsubEquipos = onSnapshot(collection(db, 'equipos'), snap => {
+      const list = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+      list.sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+      setEquipos(list)
     })
+
+    const unsubJugadoras = onSnapshot(collection(db, 'jugadoras'), snap => {
+      const byEquipo = {}
+      snap.docs.forEach(d => {
+        const data = { id: d.id, ...d.data() }
+        const eId = data.equipoId
+        if (!byEquipo[eId]) byEquipo[eId] = []
+        byEquipo[eId].push(data)
+      })
+      Object.keys(byEquipo).forEach(k => {
+        byEquipo[k].sort((a, b) => (a.number ?? 99) - (b.number ?? 99))
+      })
+      setJugadoras(byEquipo)
+      setLoading(false)
+    })
+
+    return () => { unsubEquipos(); unsubJugadoras() }
+  }, [])
+
+  const addEquipo = async (name) => {
+    const id = slugify(name) + '-' + Date.now().toString(36)
+    await setDoc(doc(db, 'equipos', id), { name, photo: null, order: Date.now() })
   }
 
-  // Players
-  const addJugadora = (equipoId, jugadora) => {
-    const nueva = { ...jugadora, id: Date.now().toString(), photo: jugadora.photo ?? null }
-    setData(d => ({
-      ...d,
-      jugadoras: {
-        ...d.jugadoras,
-        [equipoId]: [...(d.jugadoras[equipoId] ?? []), nueva],
-      },
-    }))
+  const updateEquipo = async (id, fields) => {
+    await updateDoc(doc(db, 'equipos', id), fields)
   }
 
-  const updateJugadora = (equipoId, jugadoraId, fields) => {
-    setData(d => ({
-      ...d,
-      jugadoras: {
-        ...d.jugadoras,
-        [equipoId]: d.jugadoras[equipoId].map(j => j.id === jugadoraId ? { ...j, ...fields } : j),
-      },
-    }))
+  const deleteEquipo = async (id) => {
+    await deleteDoc(doc(db, 'equipos', id))
+    const snap = await getDocs(query(collection(db, 'jugadoras'), where('equipoId', '==', id)))
+    snap.docs.forEach(d => deleteDoc(d.ref))
   }
 
-  const deleteJugadora = (equipoId, jugadoraId) => {
-    setData(d => ({
-      ...d,
-      jugadoras: {
-        ...d.jugadoras,
-        [equipoId]: d.jugadoras[equipoId].filter(j => j.id !== jugadoraId),
-      },
-    }))
+  const addJugadora = async (equipoId, jugadora, customId) => {
+    const id = customId ?? doc(collection(db, 'jugadoras')).id
+    await setDoc(doc(db, 'jugadoras', id), { ...jugadora, equipoId })
+    return id
+  }
+
+  const updateJugadora = async (_equipoId, jugadoraId, fields) => {
+    await updateDoc(doc(db, 'jugadoras', jugadoraId), fields)
+  }
+
+  const deleteJugadora = async (_equipoId, jugadoraId) => {
+    await deleteDoc(doc(db, 'jugadoras', jugadoraId))
   }
 
   return (
     <EquiposContext.Provider value={{
-      equipos, jugadoras,
+      equipos, jugadoras, loading,
       addEquipo, updateEquipo, deleteEquipo,
       addJugadora, updateJugadora, deleteJugadora,
     }}>
