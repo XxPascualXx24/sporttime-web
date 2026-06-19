@@ -6,7 +6,7 @@ import { useEquipos } from '../context/EquiposContext'
 import ImageUpload from './ImageUpload'
 import styles from './AdminEquipoDetalle.module.css'
 
-const POSITIONS = ['Portera', 'Defensa', 'Centrocampista', 'Delantera']
+const POSITIONS = ['Portera', 'Defensa', 'Centrocampista', 'Delantera', 'Entrenadora']
 
 const emptyPlayer = {
   name: '', number: '', position: 'Defensa', photo: null,

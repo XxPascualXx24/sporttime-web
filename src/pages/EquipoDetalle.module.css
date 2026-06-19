@@ -151,9 +151,9 @@
 /* Dorsal — large semi-transparent number centered on photo */
 .dorsalOverlay {
   position: absolute;
-  top: 50%;
+  bottom: 16px;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
   font-size: clamp(120px, 30%, 180px);
   font-weight: 900;
   color: rgba(255, 255, 255, 0.38);
