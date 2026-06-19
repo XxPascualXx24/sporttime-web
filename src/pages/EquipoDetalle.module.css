@@ -29,6 +29,32 @@
 }
 .sublink:hover { opacity: 0.7; }
 
+.posSection {
+  margin-bottom: 48px;
+}
+
+.posTitle {
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--dark);
+  text-align: center;
+  margin-bottom: 24px;
+  position: relative;
+}
+.posTitle::before,
+.posTitle::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 28%;
+  height: 1px;
+  background: #e5e7eb;
+}
+.posTitle::before { left: 0; }
+.posTitle::after  { right: 0; }
+
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

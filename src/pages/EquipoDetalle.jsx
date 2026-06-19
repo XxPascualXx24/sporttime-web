@@ -9,17 +9,19 @@ const sublinks = [
   { label: 'fotogalería',         href: '#' },
 ]
 
-function splitName(fullName) {
-  const parts = fullName.trim().split(' ')
-  if (parts.length === 1) return { first: '', last: parts[0] }
-  return { first: parts[0], last: parts.slice(1).join(' ') }
+const POSITION_ORDER = ['Portera', 'Defensa', 'Centrocampista', 'Delantera']
+const POSITION_LABEL = {
+  'Portera':         'Porteras',
+  'Defensa':         'Defensas',
+  'Centrocampista':  'Centrocampistas',
+  'Delantera':       'Delanteras',
 }
 
 export default function EquipoDetalle() {
   const { id } = useParams()
   const { equipos, jugadoras } = useEquipos()
 
-  const equipo = equipos.find(e => e.id === id)
+  const equipo  = equipos.find(e => e.id === id)
   const players = jugadoras[id] ?? []
 
   if (!equipo) {
@@ -29,6 +31,51 @@ export default function EquipoDetalle() {
           <p className={styles.notFound}>Equipo no encontrado. <Link to="/equipos">Volver</Link></p>
         </div>
       </main>
+    )
+  }
+
+  // Group by position preserving order
+  const groups = POSITION_ORDER.reduce((acc, pos) => {
+    const group = players.filter(p => p.position === pos)
+    if (group.length > 0) acc.push({ pos, players: group })
+    return acc
+  }, [])
+
+  // Players with unknown position go last
+  const knownPositions = new Set(POSITION_ORDER)
+  const others = players.filter(p => !knownPositions.has(p.position))
+  if (others.length > 0) groups.push({ pos: 'Otras', players: others })
+
+  const renderCard = (p) => {
+    const isPortera = p.position?.toLowerCase().includes('portera')
+    return p.photo ? (
+      <div key={p.id} className={`${styles.card} ${styles.cardWithPhoto}`}>
+        <div className={styles.photoArea}>
+          <img src={p.photo} className={styles.playerPhoto} alt={p.name} />
+        </div>
+        <div className={styles.photoGradient} />
+        {p.number && <span className={styles.dorsalOverlay}>{p.number}</span>}
+        <div className={styles.nameArea}>
+          <span className={styles.nameFull}>{p.name}</span>
+          <span className={styles.posBadge}>{p.position}</span>
+        </div>
+        <div className={styles.statsPanel}>
+          <div className={styles.statCol}>
+            <span className={styles.statLabel}>Partidos</span>
+            <span className={styles.statBig}>{p.partidos ?? 0}</span>
+          </div>
+          <div className={styles.statCol}>
+            <span className={styles.statLabel}>{isPortera ? 'Portería a cero' : 'Goles'}</span>
+            <span className={styles.statBig}>{isPortera ? (p.porteriasACero ?? 0) : (p.goles ?? 0)}</span>
+          </div>
+        </div>
+      </div>
+    ) : (
+      <div key={p.id} className={styles.card}>
+        <span className={styles.playerName}>{p.name}</span>
+        <span className={styles.number}>{p.number}</span>
+        <span className={styles.position}>{p.position}</span>
+      </div>
     )
   }
 
@@ -46,47 +93,16 @@ export default function EquipoDetalle() {
         {players.length === 0 ? (
           <p className={styles.empty}>Plantilla en construcción.</p>
         ) : (
-          <div className={styles.grid}>
-            {players.map(p => {
-              const { first, last } = splitName(p.name)
-              const isPortera = p.position?.toLowerCase().includes('portera')
-              return p.photo ? (
-                <div key={p.id} className={`${styles.card} ${styles.cardWithPhoto}`}>
-                  {/* Photo */}
-                  <div className={styles.photoArea}>
-                    <img src={p.photo} className={styles.playerPhoto} alt={p.name} />
-                  </div>
-                  {/* Gradient overlay */}
-                  <div className={styles.photoGradient} />
-                  {/* Dorsal — large, semi-transparent, centered */}
-                  {p.number && <span className={styles.dorsalOverlay}>{p.number}</span>}
-                  {/* Name + position */}
-                  <div className={styles.nameArea}>
-                    <span className={styles.nameFull}>{p.name}</span>
-                    <span className={styles.posBadge}>{p.position}</span>
-                  </div>
-                  {/* Stats hover panel — 2 cols */}
-                  <div className={styles.statsPanel}>
-                    <div className={styles.statCol}>
-                      <span className={styles.statLabel}>Partidos</span>
-                      <span className={styles.statBig}>{p.partidos ?? 0}</span>
-                    </div>
-                    <div className={styles.statCol}>
-                      <span className={styles.statLabel}>{isPortera ? 'Portería a cero' : 'Goles'}</span>
-                      <span className={styles.statBig}>{isPortera ? (p.porteriasACero ?? 0) : (p.goles ?? 0)}</span>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                /* No photo: classic pink card */
-                <div key={p.id} className={styles.card}>
-                  <span className={styles.playerName}>{p.name}</span>
-                  <span className={styles.number}>{p.number}</span>
-                  <span className={styles.position}>{p.position}</span>
-                </div>
-              )
-            })}
-          </div>
+          groups.map(({ pos, players: group }) => (
+            <section key={pos} className={styles.posSection}>
+              <h2 className={styles.posTitle}>
+                {POSITION_LABEL[pos] ?? pos}
+              </h2>
+              <div className={styles.grid}>
+                {group.map(renderCard)}
+              </div>
+            </section>
+          ))
         )}
       </div>
     </main>
