@@ -61,16 +61,18 @@ export default function EquipoDetalle() {
           <span className={styles.nameFull}>{p.name}</span>
           <span className={styles.posBadge}>{p.position}</span>
         </div>
-        <div className={styles.statsPanel}>
-          <div className={styles.statCol}>
-            <span className={styles.statLabel}>Partidos</span>
-            <span className={styles.statBig}>{p.partidos ?? 0}</span>
+        {!isEntrenadora && (
+          <div className={styles.statsPanel}>
+            <div className={styles.statCol}>
+              <span className={styles.statLabel}>Partidos</span>
+              <span className={styles.statBig}>{p.partidos ?? 0}</span>
+            </div>
+            <div className={styles.statCol}>
+              <span className={styles.statLabel}>{isPortera ? 'Portería a cero' : 'Goles'}</span>
+              <span className={styles.statBig}>{isPortera ? (p.porteriasACero ?? 0) : (p.goles ?? 0)}</span>
+            </div>
           </div>
-          <div className={styles.statCol}>
-            <span className={styles.statLabel}>{isPortera ? 'Portería a cero' : 'Goles'}</span>
-            <span className={styles.statBig}>{isPortera ? (p.porteriasACero ?? 0) : (p.goles ?? 0)}</span>
-          </div>
-        </div>
+        )}
       </div>
     ) : (
       <div key={p.id} className={styles.card}>
