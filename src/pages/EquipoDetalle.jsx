@@ -48,14 +48,15 @@ export default function EquipoDetalle() {
   if (others.length > 0) groups.push({ pos: 'Otras', players: others })
 
   const renderCard = (p) => {
-    const isPortera = p.position?.toLowerCase().includes('portera')
+    const isPortera    = p.position?.toLowerCase().includes('portera')
+    const isEntrenadora = p.position === 'Entrenadora'
     return p.photo ? (
       <div key={p.id} className={`${styles.card} ${styles.cardWithPhoto}`}>
         <div className={styles.photoArea}>
           <img src={p.photo} className={styles.playerPhoto} alt={p.name} />
         </div>
         <div className={styles.photoGradient} />
-        {p.number && <span className={styles.dorsalOverlay}>{p.number}</span>}
+        {p.number && !isEntrenadora && <span className={styles.dorsalOverlay}>{p.number}</span>}
         <div className={styles.nameArea}>
           <span className={styles.nameFull}>{p.name}</span>
           <span className={styles.posBadge}>{p.position}</span>
