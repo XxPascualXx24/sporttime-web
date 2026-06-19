@@ -156,17 +156,13 @@
   transform: translate(-50%, -50%);
   font-size: clamp(120px, 30%, 180px);
   font-weight: 900;
-  color: rgba(255, 255, 255, 0.22);
+  color: rgba(255, 255, 255, 0.38);
   line-height: 1;
   z-index: 2;
   user-select: none;
   pointer-events: none;
   letter-spacing: -0.04em;
   filter: blur(1px);
-  transition: opacity 0.35s ease;
-}
-.cardWithPhoto:hover .dorsalOverlay {
-  opacity: 0.12;
 }
 
 /* Name + position — centered, bottom */
