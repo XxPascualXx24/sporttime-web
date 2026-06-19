@@ -1,10 +1,12 @@
 import { useRef, useState } from 'react'
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
-import { storage } from '../firebase'
 import styles from './ImageUpload.module.css'
 
-const MAX_PX   = 1200  // max width or height in pixels
-const QUALITY  = 0.82  // JPEG quality (0–1)
+const CLOUD_NAME    = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME
+const UPLOAD_PRESET = 'sporttime'
+const UPLOAD_URL    = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`
+
+const MAX_PX  = 1200
+const QUALITY = 0.82
 
 function compressImage(file) {
   return new Promise((resolve) => {
@@ -28,7 +30,7 @@ function compressImage(file) {
 }
 
 export default function ImageUpload({ value, onChange, label = 'Imagen', aspect = '16/9', storagePath }) {
-  const inputRef  = useRef()
+  const inputRef = useRef()
   const [uploading, setUploading] = useState(false)
   const [progress, setProgress]   = useState('')
 
@@ -37,26 +39,25 @@ export default function ImageUpload({ value, onChange, label = 'Imagen', aspect 
     if (!file) return
     e.target.value = ''
 
-    if (storagePath) {
-      setUploading(true)
-      setProgress('Comprimiendo...')
-      try {
-        const blob      = await compressImage(file)
-        setProgress('Subiendo...')
-        const storageRef = ref(storage, storagePath)
-        await uploadBytes(storageRef, blob, { contentType: 'image/jpeg' })
-        const url = await getDownloadURL(storageRef)
-        onChange(url)
-      } catch (err) {
-        console.error('Error subiendo imagen:', err)
-      } finally {
-        setUploading(false)
-        setProgress('')
-      }
-    } else {
-      const reader = new FileReader()
-      reader.onload = (ev) => onChange(ev.target.result)
-      reader.readAsDataURL(file)
+    setUploading(true)
+    setProgress('Comprimiendo...')
+    try {
+      const blob = await compressImage(file)
+      setProgress('Subiendo...')
+      const form = new FormData()
+      form.append('file', blob, 'image.jpg')
+      form.append('upload_preset', UPLOAD_PRESET)
+      if (storagePath) form.append('public_id', storagePath.replace(/\//g, '_'))
+
+      const res  = await fetch(UPLOAD_URL, { method: 'POST', body: form })
+      const data = await res.json()
+      if (data.secure_url) onChange(data.secure_url)
+      else throw new Error(data.error?.message ?? 'Upload failed')
+    } catch (err) {
+      console.error('Error subiendo imagen:', err)
+    } finally {
+      setUploading(false)
+      setProgress('')
     }
   }
 
