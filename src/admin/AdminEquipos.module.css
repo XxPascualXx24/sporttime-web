@@ -1,0 +1,150 @@
+.page { max-width: 800px; }
+
+.head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 28px;
+  gap: 16px;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--dark);
+  margin: 0 0 4px;
+}
+
+.sub {
+  font-size: 13px;
+  color: var(--muted);
+  margin: 0;
+}
+
+.btn {
+  padding: 12px 20px;
+  border-radius: 10px;
+  background: var(--pink);
+  color: #fff;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: opacity 0.15s;
+}
+.btn:hover { opacity: 0.88; }
+
+.addForm {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 24px;
+  background: #fff;
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+}
+
+.input {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1.5px solid var(--border);
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--dark);
+  outline: none;
+}
+.input:focus { border-color: var(--pink); }
+
+.btnSave {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  background: var(--dark);
+  color: #fff;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.btnSave:hover { opacity: 0.82; }
+
+.list {
+  background: #fff;
+  border-radius: 16px;
+  border: 1.5px solid var(--border);
+  overflow: hidden;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  gap: 12px;
+}
+.row:last-child { border-bottom: none; }
+
+.rowLeft {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--pink);
+  color: #fff;
+  font-size: 17px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.rowName {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--dark);
+  margin: 0 0 2px;
+}
+
+.rowCount {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 0;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.edit {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--pink);
+  text-decoration: none;
+}
+.edit:hover { text-decoration: underline; }
+
+.del {
+  font-size: 13px;
+  font-weight: 700;
+  color: #e03b3b;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 0;
+}
+.del:hover { text-decoration: underline; }

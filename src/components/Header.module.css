@@ -1,0 +1,193 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  overflow: visible;
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.headerHome  { background: var(--pink); border-bottom: none; box-shadow: none; }
+.headerLight { background: rgba(255,255,255,0.97); border-bottom: 1px solid var(--border); box-shadow: 0 1px 16px rgba(0,0,0,0.07); backdrop-filter: blur(8px); }
+.headerDark  { background: #1a1a2e; border-bottom: none; box-shadow: none; }
+.headerSolid { background: #fff; border-bottom: 1px solid var(--border); }
+
+/* ── Inner: 3-column grid logo centered ── */
+.inner {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  overflow: visible;
+}
+
+/* ── Logo — center column, protrudes below header ── */
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  justify-self: center;
+  text-decoration: none;
+  flex-shrink: 0;
+  position: relative;
+  margin-bottom: -24px;
+  z-index: 1;
+}
+
+.logoImg {
+  height: 80px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 6px 16px rgba(0,0,0,0.30));
+  transition: transform 0.2s ease;
+}
+.logoImg:hover {
+  transform: translateY(-2px);
+}
+
+/* ── Left nav ── */
+.navLeft {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 2px;
+}
+
+/* ── Right nav + buttons ── */
+.navRight {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 2px;
+}
+
+/* ── Links ── */
+.link {
+  padding: 7px 13px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--dark);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+.link:hover { background: rgba(0,0,0,0.06); }
+.linkLight { color: #fff; }
+.linkLight:hover { background: rgba(255,255,255,0.15); }
+.active { background: rgba(0,0,0,0.09) !important; }
+.linkLight.active { background: rgba(255,255,255,0.2) !important; color: #fff !important; }
+
+/* ── Buttons ── */
+.btnRenueva {
+  margin-left: 8px;
+  padding: 9px 18px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  border: 1.5px solid var(--pink);
+  color: var(--pink);
+  background: transparent;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+.btnRenueva:hover { background: var(--pink); color: #fff; }
+
+.btnRenuevaLight {
+  border-color: rgba(255,255,255,0.75);
+  color: #fff;
+}
+.btnRenuevaLight:hover { background: rgba(255,255,255,0.15); color: #fff; }
+
+.btnInscribete {
+  padding: 9px 18px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  background: var(--dark);
+  color: #fff;
+  border: 1.5px solid var(--dark);
+  white-space: nowrap;
+  transition: opacity 0.15s;
+}
+.btnInscribete:hover { opacity: 0.82; }
+
+/* ── Hamburger ── */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  flex-shrink: 0;
+  grid-column: 3;
+  justify-self: end;
+}
+.hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--dark);
+  border-radius: 2px;
+  transition: transform 0.25s, opacity 0.25s;
+}
+.hamburgerLight span { background: #fff; }
+.hamburgerActive span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburgerActive span:nth-child(2) { opacity: 0; }
+.hamburgerActive span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ── Mobile nav ── */
+.mobileNav {
+  background: #fff;
+  border-top: 1px solid var(--border);
+  padding: 12px 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+}
+.mobileLink {
+  padding: 11px 14px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--dark);
+  text-decoration: none;
+  transition: background 0.15s;
+}
+.mobileLink:hover { background: var(--bg-muted); }
+.mobileLinkActive { color: var(--pink); background: #fce7eb; }
+
+.mobileBtns {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+.mobileBtnRenueva {
+  flex: 1; text-align: center; padding: 11px; border-radius: 999px;
+  font-size: 14px; font-weight: 700; text-decoration: none;
+  border: 1.5px solid var(--pink); color: var(--pink);
+}
+.mobileBtnInscribete {
+  flex: 1; text-align: center; padding: 11px; border-radius: 999px;
+  font-size: 14px; font-weight: 700; text-decoration: none;
+  background: var(--dark); color: #fff;
+}
+
+/* ── Responsive ── */
+@media (max-width: 960px) {
+  .navLeft  { display: none; }
+  .navRight { display: none; }
+  .hamburger { display: flex; }
+  .inner { grid-template-columns: auto 1fr; }
+  .logo { justify-self: start; }
+}

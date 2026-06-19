@@ -1,0 +1,58 @@
+.cta {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 40%, #0f3460 70%, #533483 100%);
+  color: #fff;
+  padding: 96px 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 60% 50%, rgba(255,77,109,0.25) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.inner {
+  max-width: 680px;
+  margin: 0 auto;
+  position: relative;
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.badge {
+  display: inline-block;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 14px;
+  border-radius: 999px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.inner h2 {
+  font-size: 36px;
+  font-weight: 800;
+  margin-bottom: 14px;
+}
+
+.lead {
+  color: rgba(255,255,255,0.75);
+  margin-bottom: 32px;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+@media (max-width: 520px) {
+  .cta { padding: 64px 0; }
+  .inner h2 { font-size: 26px; }
+}

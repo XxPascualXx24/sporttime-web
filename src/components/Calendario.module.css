@@ -1,0 +1,78 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  align-items: stretch;
+}
+
+/* Match cards */
+.card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: box-shadow 0.2s;
+}
+.card:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.08); }
+
+.date {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--bg-muted);
+  border-radius: 8px;
+  padding: 10px 14px;
+  min-width: 56px;
+  flex-shrink: 0;
+}
+.day { font-size: 24px; font-weight: 800; line-height: 1; }
+.month { font-size: 11px; font-weight: 700; letter-spacing: 1px; margin-top: 2px; }
+
+.teams { font-weight: 700; font-size: 13px; margin-bottom: 4px; }
+.vs { color: var(--pink); font-weight: 800; margin: 0 4px; }
+.meta { font-size: 12px; color: var(--muted); }
+
+/* Featured card */
+.featuredCard {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  min-height: 200px;
+}
+
+.featuredImg {
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
+  background: #555;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.imgLabel { color: #888; font-size: 13px; font-weight: 600; }
+
+.featuredLabel {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 40px 18px 18px;
+  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+  color: #fff;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.note {
+  margin-top: 20px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.note a { color: var(--pink); font-weight: 600; text-decoration: none; }
+.note a:hover { text-decoration: underline; }
+
+@media (max-width: 900px) {
+  .grid { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,140 @@
+.page {
+  min-height: 100vh;
+  background: #fff;
+}
+
+.searchBar {
+  display: flex;
+  justify-content: center;
+  padding: 24px 24px 0;
+}
+
+.searchInput {
+  width: 100%;
+  max-width: 580px;
+  padding: 12px 22px;
+  border-radius: 999px;
+  border: 1.5px solid var(--border);
+  background: var(--bg-muted);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--dark);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.searchInput:focus {
+  border-color: var(--pink);
+  box-shadow: 0 0 0 3px rgba(255, 77, 109, 0.12);
+  background: #fff;
+}
+
+.searchInput::placeholder {
+  color: var(--muted);
+}
+
+.title {
+  font-size: 52px;
+  font-weight: 800;
+  text-align: center;
+  margin: 32px 0 24px;
+}
+
+.filters {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.filter {
+  padding: 8px 20px;
+  border-radius: 999px;
+  border: 1.5px solid var(--border);
+  background: var(--bg-muted);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--dark);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.filter:hover {
+  border-color: var(--pink);
+  color: var(--pink);
+}
+
+.filterActive {
+  background: var(--dark);
+  border-color: var(--dark);
+  color: #fff;
+}
+
+.filterActive:hover {
+  background: #333;
+  border-color: #333;
+  color: #fff;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  padding-bottom: 64px;
+}
+
+.card {
+  cursor: pointer;
+}
+
+.img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: #ddd;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  transition: opacity 0.15s;
+}
+
+.card:hover .img {
+  opacity: 0.88;
+}
+
+.imgLabel {
+  color: #aaa;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.name {
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.price {
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.empty {
+  color: var(--muted);
+  text-align: center;
+  padding: 60px 0;
+  font-size: 15px;
+}
+
+@media (max-width: 900px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+  .title { font-size: 36px; }
+}
+
+@media (max-width: 520px) {
+  .grid { grid-template-columns: 1fr; }
+  .title { font-size: 28px; }
+}

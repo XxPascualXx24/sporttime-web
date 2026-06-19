@@ -1,0 +1,304 @@
+.page {
+  background: #fff;
+}
+
+/* ── Hero ── */
+.hero {
+  padding: 60px 0 0;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.heroGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  min-height: 440px;
+}
+
+.heroImg {
+  border-radius: 16px;
+  overflow: hidden;
+  aspect-ratio: 4/3;
+}
+
+.imgPlaceholder {
+  width: 100%;
+  height: 100%;
+  background: repeating-conic-gradient(#e5e7eb 0% 25%, #f3f4f6 0% 50%) 0 0 / 32px 32px;
+  min-height: 360px;
+}
+
+.heroContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.heroDate {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--pink);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 10px;
+}
+
+.heroTitle {
+  font-size: clamp(28px, 3.5vw, 48px);
+  font-weight: 900;
+  color: var(--dark);
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+}
+
+.heroPara {
+  font-size: 15px;
+  color: #4b5563;
+  line-height: 1.7;
+  margin-bottom: 14px;
+}
+.heroPara:last-of-type { margin-bottom: 28px; }
+
+.heroNav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.navBtn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1.5px solid #e5e7eb;
+  background: #fff;
+  font-size: 22px;
+  color: var(--dark);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.15s, background 0.15s;
+  line-height: 1;
+}
+.navBtn:hover:not(:disabled) { border-color: var(--pink); color: var(--pink); }
+.navBtn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+.navDots {
+  display: flex;
+  gap: 8px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: #d1d5db;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.15s, transform 0.15s;
+}
+.dotActive {
+  background: var(--pink);
+  transform: scale(1.3);
+}
+
+/* ── Tabs section ── */
+.tabsSection {
+  background: #f9fafb;
+  margin-top: 48px;
+  padding: 36px 0 60px;
+  border-top: 1px solid #f3f4f6;
+}
+
+.tabsRow {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 40px;
+}
+
+.tabBtn {
+  padding: 10px 22px;
+  border-radius: 999px;
+  border: 1.5px solid #e5e7eb;
+  background: #fff;
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.tabBtn:hover { border-color: var(--pink); color: var(--pink); }
+.tabBtnActive {
+  background: var(--dark);
+  border-color: var(--dark);
+  color: #fff;
+}
+
+/* ── Timeline ── */
+.timeline {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding-bottom: 40px;
+}
+
+/* Horizontal line — sits at center of the dot row (88px top area + 12px = 100px) */
+.timelineLine {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100px;
+  height: 2px;
+  background: #e5e7eb;
+  z-index: 0;
+}
+
+.timelineItem {
+  position: relative;
+  padding: 0 16px;
+  display: grid;
+  grid-template-rows: 88px 24px 1fr;
+}
+
+/* Year + month aligned to the bottom of their fixed row */
+.timelineTop {
+  align-self: end;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 8px;
+}
+
+.timelineYear {
+  font-size: 40px;
+  font-weight: 900;
+  color: var(--dark);
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.timelineMes {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--pink);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 4px;
+}
+
+/* Dot centered in its 24px row */
+.timelineDot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--dark);
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 2px var(--dark);
+  position: relative;
+  z-index: 1;
+  align-self: center;
+  flex-shrink: 0;
+}
+.timelineDotActive {
+  background: var(--pink);
+  box-shadow: 0 0 0 2px var(--pink);
+  width: 20px;
+  height: 20px;
+}
+
+.timelineText {
+  font-size: 13px;
+  color: #4b5563;
+  line-height: 1.55;
+  padding-top: 12px;
+}
+
+/* ── Palmarés ── */
+.palmares {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.palmaresItem {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 18px 22px;
+}
+
+.palmaresIcon { font-size: 28px; flex-shrink: 0; }
+
+.palmaresTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 3px;
+}
+
+.palmaresMeta {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+/* ── Goleadoras ── */
+.goleadoras {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.table thead tr {
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.table th {
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #6b7280;
+}
+
+.table tbody tr {
+  border-bottom: 1px solid #f3f4f6;
+  transition: background 0.1s;
+}
+.table tbody tr:last-child { border-bottom: none; }
+.table tbody tr:hover { background: #fafafa; }
+
+.table td { padding: 14px 16px; color: #374151; }
+
+.pos { font-weight: 800; color: var(--dark); width: 40px; }
+.nombre { font-weight: 700; color: var(--dark); }
+.goles { font-weight: 800; color: var(--pink); }
+
+/* ── Responsive ── */
+@media (max-width: 860px) {
+  .heroGrid { grid-template-columns: 1fr; gap: 32px; }
+  .heroImg { aspect-ratio: 16/9; }
+  .timeline { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .timelineLine { display: none; }
+}
+
+@media (max-width: 520px) {
+  .timeline { grid-template-columns: 1fr; }
+  .tabsRow { flex-wrap: wrap; }
+}

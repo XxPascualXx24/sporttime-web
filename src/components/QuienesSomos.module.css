@@ -1,0 +1,82 @@
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+.imgWrap {
+  position: relative;
+}
+
+.img {
+  height: 340px;
+  width: 100%;
+}
+
+.founded {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 10px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.clubName {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.content p {
+  font-size: 15px;
+  color: #374151;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.stats {
+  display: flex;
+  gap: 40px;
+  margin-top: 8px;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stat strong {
+  font-size: 52px;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--dark);
+}
+
+.stat span {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--dark);
+}
+
+.cta {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.arrow {
+  font-size: 16px;
+}
+
+@media (max-width: 900px) {
+  .grid { grid-template-columns: 1fr; gap: 24px; }
+  .img { height: 240px; }
+  .stat strong { font-size: 38px; }
+}

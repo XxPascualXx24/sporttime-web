@@ -1,0 +1,134 @@
+.page {
+  max-width: 900px;
+}
+
+.head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 28px;
+  gap: 16px;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--dark);
+  margin: 0 0 4px;
+}
+
+.sub {
+  font-size: 13px;
+  color: var(--muted);
+  margin: 0;
+}
+
+.btn {
+  padding: 12px 20px;
+  border-radius: 10px;
+  background: var(--pink);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 800;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: opacity 0.15s;
+  flex-shrink: 0;
+}
+.btn:hover { opacity: 0.88; }
+
+.table {
+  background: #fff;
+  border-radius: 16px;
+  border: 1.5px solid var(--border);
+  overflow: hidden;
+}
+
+.tableHead {
+  display: grid;
+  grid-template-columns: 1fr 80px 100px 100px 140px;
+  gap: 12px;
+  padding: 12px 20px;
+  background: var(--bg-muted);
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 80px 100px 100px 140px;
+  gap: 12px;
+  padding: 16px 20px;
+  border-top: 1px solid var(--border);
+  align-items: center;
+}
+
+.rowTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--dark);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tag {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.date {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  font-family: inherit;
+}
+.badge:hover { opacity: 0.75; }
+
+.pub { background: #d4f4df; color: #1a7a3a; }
+.draft { background: #f0f0f0; color: #888; }
+
+.actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.edit {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--pink);
+  text-decoration: none;
+}
+.edit:hover { text-decoration: underline; }
+
+.del {
+  font-size: 13px;
+  font-weight: 700;
+  color: #e03b3b;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 0;
+}
+.del:hover { text-decoration: underline; }
+
+.empty {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 14px;
+}
