@@ -45,7 +45,7 @@ export default function EquipoDetalle() {
   // Players with unknown position go last
   const knownPositions = new Set(POSITION_ORDER)
   const others = players.filter(p => !knownPositions.has(p.position))
-  if (others.length > 0) groups.push({ pos: 'Otras', players: others })
+  if (others.length > 0) groups.push({ pos: 'Cuerpo técnico', players: others })
 
   const renderCard = (p) => {
     const isPortera    = p.position?.toLowerCase().includes('portera')
