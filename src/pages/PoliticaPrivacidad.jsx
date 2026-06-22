@@ -28,8 +28,9 @@ export default function PoliticaPrivacidad() {
           </p>
           <ul>
             <li><strong>Identidad:</strong> Sporttime Femení Vila-real C.F.</li>
-            <li><strong>CIF/NIF:</strong> <em className={styles.placeholder}>[COMPLETAR CIF/NIF]</em></li>
-            <li><strong>Dirección:</strong> <em className={styles.placeholder}>[COMPLETAR DIRECCIÓN]</em>, Vila-real, Castellón</li>
+            <li><strong>CIF/NIF:</strong> G13797931</li>
+            <li><strong>Responsable:</strong> Ana Cheza Salvá</li>
+            <li><strong>Dirección:</strong> C/Peñíscola 28, Vila-real, Castellón</li>
             <li><strong>Correo electrónico:</strong> sporttimefemeni@gmail.com</li>
           </ul>
         </div>

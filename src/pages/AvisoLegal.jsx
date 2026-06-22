@@ -27,10 +27,9 @@ export default function AvisoLegal() {
           </p>
           <ul>
             <li><strong>Denominación social:</strong> Sporttime Femení Vila-real C.F.</li>
-            <li><strong>CIF/NIF:</strong> <em className={styles.placeholder}>[COMPLETAR CIF/NIF]</em></li>
-            <li><strong>Domicilio social:</strong> <em className={styles.placeholder}>[COMPLETAR DIRECCIÓN]</em>, Vila-real, Castellón</li>
+            <li><strong>CIF/NIF:</strong> G13797931</li>
+            <li><strong>Domicilio social:</strong> C/Peñíscola 28, Vila-real, Castellón</li>
             <li><strong>Correo electrónico:</strong> sporttimefemeni@gmail.com</li>
-            <li><strong>Teléfono:</strong> <em className={styles.placeholder}>[COMPLETAR TELÉFONO]</em></li>
           </ul>
         </div>
 
