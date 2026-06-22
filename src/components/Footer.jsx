@@ -24,9 +24,9 @@ export default function Footer() {
               El club de todas.
             </p>
             <div className={styles.socials}>
-              <a href="#" aria-label="Instagram">IG</a>
-              <a href="#" aria-label="TikTok">TT</a>
-              <a href="#" aria-label="Facebook">FB</a>
+              <a href="https://www.instagram.com/sporttimefemeni" target="_blank" rel="noopener noreferrer" aria-label="Instagram">IG</a>
+              <a href="https://www.tiktok.com/@sporttimefem" target="_blank" rel="noopener noreferrer" aria-label="TikTok">TT</a>
+              <a href="https://www.facebook.com/share/1LcL4QZjA8/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">FB</a>
             </div>
           </div>
 
