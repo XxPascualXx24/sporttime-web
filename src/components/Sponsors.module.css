@@ -1,8 +1,11 @@
 .sponsors {
   background: var(--pink);
-  padding: 56px 0 48px;
+  padding: 52px 0 44px;
   text-align: center;
+  overflow: hidden;
 }
+
+.header { padding: 0 24px; }
 
 .title {
   font-size: 20px;
@@ -12,15 +15,45 @@
   letter-spacing: -0.01em;
 }
 
-.row {
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-bottom: 28px;
+/* ── Carousel ── */
+.carouselWrap {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
 }
 
-.item {
+/* Left/right fade-out gradients */
+.fade {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 120px;
+  z-index: 2;
+  pointer-events: none;
+}
+.fade[data-side="left"]  { left: 0;  background: linear-gradient(to right, var(--pink), transparent); }
+.fade[data-side="right"] { right: 0; background: linear-gradient(to left,  var(--pink), transparent); }
+
+/* The scrolling track — duplicated logos make a seamless loop.
+   --count is set to the ORIGINAL item count (half the track).
+   Each card is 180px wide + 20px gap = 200px per slot.
+   At 50% we've scrolled exactly one full set → loop back. */
+.track {
+  display: flex;
+  gap: 20px;
+  width: max-content;
+  animation: scroll calc(var(--count, 5) * 2.8s) linear infinite;
+  padding: 0 10px;
+}
+
+.track:hover { animation-play-state: paused; }
+
+@keyframes scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ── Cards ── */
+.card {
   background: #fff;
   border-radius: 14px;
   width: 180px;
@@ -28,19 +61,38 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 12px;
+  flex-shrink: 0;
   transition: transform 0.18s, box-shadow 0.18s;
 }
-.item:hover {
+.card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.18);
 }
 
-.itemName {
-  font-size: 17px;
-  font-weight: 900;
-  color: #222;
-  letter-spacing: -0.02em;
+.cardLink {
+  text-decoration: none;
+  flex-shrink: 0;
 }
+.cardLink .card { cursor: pointer; }
+
+.logo {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.name {
+  font-size: 16px;
+  font-weight: 900;
+  color: #bbb;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+/* ── Footer link ── */
+.foot { margin-top: 32px; }
 
 .link {
   display: inline-block;
@@ -55,6 +107,6 @@
 .link:hover { color: #fff; border-color: #fff; }
 
 @media (max-width: 680px) {
-  .item { width: 140px; height: 72px; }
-  .itemName { font-size: 14px; }
+  .card { width: 140px; height: 72px; }
+  .fade { width: 60px; }
 }

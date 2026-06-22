@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import styles from './Footer.module.css'
 
 const clubLinks = [
@@ -63,6 +64,11 @@ export default function Footer() {
 
       <div className={styles.bar}>
         © 2026 Sporttime Femení Vila-real C.F. · Todos los derechos reservados.
+        <span className={styles.barLinks}>
+          <Link to="/aviso-legal">Aviso Legal</Link>
+          <span>·</span>
+          <Link to="/politica-privacidad">Política de Privacidad</Link>
+        </span>
       </div>
     </footer>
   )

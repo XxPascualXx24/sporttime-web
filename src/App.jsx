@@ -4,6 +4,7 @@ import { AuthProvider } from './context/AuthContext'
 import { NoticiasProvider } from './context/NoticiasContext'
 import { EquiposProvider } from './context/EquiposContext'
 import { HistoriasProvider } from './context/HistoriasContext'
+import { PatrocinadoresProvider } from './context/PatrocinadoresContext'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import Home from './pages/Home'
@@ -22,6 +23,9 @@ import AdminNoticiaForm from './admin/AdminNoticiaForm'
 import AdminEquipos from './admin/AdminEquipos'
 import AdminEquipoDetalle from './admin/AdminEquipoDetalle'
 import AdminHistorias from './admin/AdminHistorias'
+import AvisoLegal from './pages/AvisoLegal'
+import PoliticaPrivacidad from './pages/PoliticaPrivacidad'
+import AdminPatrocinadores from './admin/AdminPatrocinadores'
 
 export default function App() {
   return (
@@ -29,6 +33,7 @@ export default function App() {
       <NoticiasProvider>
         <EquiposProvider>
           <HistoriasProvider>
+          <PatrocinadoresProvider>
             <BrowserRouter>
               <Routes>
                 {/* Public site */}
@@ -40,6 +45,8 @@ export default function App() {
                 <Route path="/calendario" element={<><Header /><CalendarioPage /><Footer /></>} />
                 <Route path="/inscripciones" element={<><Header /><Inscripciones /><Footer /></>} />
                 <Route path="/historia" element={<><Header /><Historia /><Footer /></>} />
+                <Route path="/aviso-legal" element={<><Header /><AvisoLegal /><Footer /></>} />
+                <Route path="/politica-privacidad" element={<><Header /><PoliticaPrivacidad /><Footer /></>} />
 
                 {/* Admin */}
                 <Route path="/admin" element={<AdminLogin />} />
@@ -50,9 +57,11 @@ export default function App() {
                   <Route path="noticias" element={<AdminNoticias />} />
                   <Route path="noticias/:id" element={<AdminNoticiaForm />} />
                   <Route path="historias" element={<AdminHistorias />} />
+                  <Route path="patrocinadores" element={<AdminPatrocinadores />} />
                 </Route>
               </Routes>
             </BrowserRouter>
+          </PatrocinadoresProvider>
           </HistoriasProvider>
         </EquiposProvider>
       </NoticiasProvider>

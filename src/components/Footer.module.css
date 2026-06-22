@@ -98,7 +98,25 @@
   text-align: center;
   font-size: 12px;
   margin-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
 }
+
+.barLinks {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.barLinks a {
+  color: #6b7280;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.barLinks a:hover { color: #d1d5db; }
 
 @media (max-width: 900px) {
   .grid { grid-template-columns: 1fr 1fr; gap: 28px; }
