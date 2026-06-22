@@ -6,6 +6,7 @@ const navItems = [
   { label: 'Panel',    to: '/admin/dashboard', icon: '⊞' },
   { label: 'Equipos',  to: '/admin/equipos',   icon: '👥' },
   { label: 'Noticias', to: '/admin/noticias',  icon: '📰' },
+  { label: 'Historias', to: '/admin/historias', icon: '📖' },
 ]
 
 export default function AdminLayout() {

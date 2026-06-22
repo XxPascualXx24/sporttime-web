@@ -1,23 +1,23 @@
+import { Link } from 'react-router-dom'
+import { useNoticias } from '../context/NoticiasContext'
 import styles from './Actualidad.module.css'
 
-const news = [
-  { tag: 'Club',    title: 'Torneo en Barcelona',          date: '10 jun 2026' },
-  { tag: 'Club',    title: 'Nuevas equipaciones 26-27',    date: '5 jun 2026' },
-  { tag: 'Cantera', title: 'Infantil A Campeón',           date: '1 jun 2026' },
-  { tag: 'Club',    title: 'Ascenso a Liga Preferente',    date: '28 may 2026' },
-  { tag: 'Club',    title: 'Jornada de puertas abiertas',  date: '20 may 2026' },
-]
-
 export default function Actualidad() {
+  const { noticias } = useNoticias()
+  const published = noticias.filter(n => n.status === 'published').slice(0, 5)
+
   return (
     <section id="actualidad" className="section section-light" data-header-theme="light">
       <div className="container">
         <h2>Actualidad</h2>
         <div className={styles.grid}>
-          {news.map(n => (
-            <article key={n.title} className={styles.card}>
-              <div className={`placeholder ${styles.img}`}>
-                <span className="img-label">Foto noticia</span>
+          {published.map(n => (
+            <article key={n.id} className={styles.card}>
+              <div className={styles.img} style={{ background: '#f3f4f6', overflow: 'hidden' }}>
+                {n.image
+                  ? <img src={n.image} alt={n.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  : <span className="img-label">Foto noticia</span>
+                }
               </div>
               <div className={styles.body}>
                 <span className={styles.tag}>{n.tag}</span>

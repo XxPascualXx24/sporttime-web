@@ -3,6 +3,7 @@ import './styles/variables.css'
 import { AuthProvider } from './context/AuthContext'
 import { NoticiasProvider } from './context/NoticiasContext'
 import { EquiposProvider } from './context/EquiposContext'
+import { HistoriasProvider } from './context/HistoriasContext'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import Home from './pages/Home'
@@ -20,35 +21,39 @@ import AdminNoticias from './admin/AdminNoticias'
 import AdminNoticiaForm from './admin/AdminNoticiaForm'
 import AdminEquipos from './admin/AdminEquipos'
 import AdminEquipoDetalle from './admin/AdminEquipoDetalle'
+import AdminHistorias from './admin/AdminHistorias'
 
 export default function App() {
   return (
     <AuthProvider>
       <NoticiasProvider>
         <EquiposProvider>
-          <BrowserRouter>
-            <Routes>
-              {/* Public site */}
-              <Route path="/" element={<><Header /><Home /><Footer /></>} />
-              <Route path="/tienda" element={<><Header /><Tienda /><Footer /></>} />
-              <Route path="/equipos" element={<><Header /><Equipos /><Footer /></>} />
-              <Route path="/equipos/:id" element={<><Header /><EquipoDetalle /><Footer /></>} />
-              <Route path="/noticias" element={<><Header /><Noticias /><Footer /></>} />
-              <Route path="/calendario" element={<><Header /><CalendarioPage /><Footer /></>} />
-              <Route path="/inscripciones" element={<><Header /><Inscripciones /><Footer /></>} />
-              <Route path="/historia" element={<><Header /><Historia /><Footer /></>} />
+          <HistoriasProvider>
+            <BrowserRouter>
+              <Routes>
+                {/* Public site */}
+                <Route path="/" element={<><Header /><Home /><Footer /></>} />
+                <Route path="/tienda" element={<><Header /><Tienda /><Footer /></>} />
+                <Route path="/equipos" element={<><Header /><Equipos /><Footer /></>} />
+                <Route path="/equipos/:id" element={<><Header /><EquipoDetalle /><Footer /></>} />
+                <Route path="/noticias" element={<><Header /><Noticias /><Footer /></>} />
+                <Route path="/calendario" element={<><Header /><CalendarioPage /><Footer /></>} />
+                <Route path="/inscripciones" element={<><Header /><Inscripciones /><Footer /></>} />
+                <Route path="/historia" element={<><Header /><Historia /><Footer /></>} />
 
-              {/* Admin */}
-              <Route path="/admin" element={<AdminLogin />} />
-              <Route path="/admin" element={<AdminLayout />}>
-                <Route path="dashboard" element={<AdminDashboard />} />
-                <Route path="equipos" element={<AdminEquipos />} />
-                <Route path="equipos/:id" element={<AdminEquipoDetalle />} />
-                <Route path="noticias" element={<AdminNoticias />} />
-                <Route path="noticias/:id" element={<AdminNoticiaForm />} />
-              </Route>
-            </Routes>
-          </BrowserRouter>
+                {/* Admin */}
+                <Route path="/admin" element={<AdminLogin />} />
+                <Route path="/admin" element={<AdminLayout />}>
+                  <Route path="dashboard" element={<AdminDashboard />} />
+                  <Route path="equipos" element={<AdminEquipos />} />
+                  <Route path="equipos/:id" element={<AdminEquipoDetalle />} />
+                  <Route path="noticias" element={<AdminNoticias />} />
+                  <Route path="noticias/:id" element={<AdminNoticiaForm />} />
+                  <Route path="historias" element={<AdminHistorias />} />
+                </Route>
+              </Routes>
+            </BrowserRouter>
+          </HistoriasProvider>
         </EquiposProvider>
       </NoticiasProvider>
     </AuthProvider>
