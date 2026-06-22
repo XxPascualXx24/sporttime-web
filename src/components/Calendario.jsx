@@ -35,7 +35,7 @@ export default function Calendario() {
         </div>
 
         <p className={styles.note}>
-          Consulta el calendario completo de todos los equipos <a href="#">aquí</a>.
+          Consulta el calendario completo de todos los equipos <a href="/calendario">aquí</a>.
         </p>
       </div>
     </section>

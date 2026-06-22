@@ -32,7 +32,7 @@ export default function QuienesSomos() {
               ))}
             </div>
 
-            <a className={`btn btn-outline ${styles.cta}`} href="#">
+            <a className={`btn btn-outline ${styles.cta}`} href="/historia">
               Más sobre nuestra historia <span className={styles.arrow}>→</span>
             </a>
           </div>

@@ -13,7 +13,7 @@ export default function Hero() {
           <a className={styles.btnRenueva} href="/inscripciones?tab=renovacion">← Renueva</a>
           <a className={styles.btnInscribete} href="/inscripciones">Inscríbete →</a>
         </div>
-        <a className={styles.saber} href="/#quienes-somos">¿Quieres patrocinarnos? ›</a>
+        <a className={styles.saber} href="/#quienes-somos">¿Quieres saber más? ›</a>
       </div>
     </section>
   )
