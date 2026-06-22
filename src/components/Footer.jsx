@@ -25,7 +25,7 @@ export default function Footer() {
             </p>
             <div className={styles.socials}>
               <a href="#" aria-label="Instagram">IG</a>
-              <a href="#" aria-label="Twitter">TW</a>
+              <a href="#" aria-label="TikTok">TT</a>
               <a href="#" aria-label="Facebook">FB</a>
             </div>
           </div>
