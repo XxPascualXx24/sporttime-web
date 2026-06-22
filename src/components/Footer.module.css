@@ -112,11 +112,11 @@
 }
 
 .barLinks a {
-  color: #6b7280;
+  color: #9ca3af;
   text-decoration: none;
   transition: color 0.15s;
 }
-.barLinks a:hover { color: #d1d5db; }
+.barLinks a:hover { color: #fff; }
 
 @media (max-width: 900px) {
   .grid { grid-template-columns: 1fr 1fr; gap: 28px; }
