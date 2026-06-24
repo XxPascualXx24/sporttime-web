@@ -14,12 +14,10 @@ export default function QuienesSomos() {
         <h2>Quiénes somos</h2>
         <div className={styles.grid}>
           <div className={styles.imgWrap}>
-            <div className={`placeholder ${styles.img}`}>
-              {config.fotoEquipo
-                ? <img src={config.fotoEquipo} alt="Foto del equipo" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit' }} />
-                : <span className="img-label">Foto del equipo</span>
-              }
-            </div>
+            {config.fotoEquipo
+              ? <img src={config.fotoEquipo} alt="Foto del equipo" className={styles.img} style={{ objectFit: 'cover', borderRadius: '12px', display: 'block' }} />
+              : <div className={`placeholder ${styles.img}`}><span className="img-label">Foto del equipo</span></div>
+            }
             <p className={styles.founded}>Fundado el 8.03.2023</p>
           </div>
 
