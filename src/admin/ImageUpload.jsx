@@ -5,26 +5,45 @@ const CLOUD_NAME    = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME
 const UPLOAD_PRESET = 'sporttime'
 const UPLOAD_URL    = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`
 
-const MAX_PX  = 1200
-const QUALITY = 0.82
+const MAX_PX        = 1400
+const QUALITY       = 0.82
+const SKIP_IF_UNDER = 400 * 1024 // no comprimir si ya pesa menos de 400 KB
 
 function compressImage(file) {
+  // Si el archivo ya es pequeño, lo subimos directamente sin pasar por canvas
+  if (file.size <= SKIP_IF_UNDER) return Promise.resolve(file)
+
   return new Promise((resolve) => {
     const img = new Image()
     const url = URL.createObjectURL(file)
+
+    // Si algo falla (HEIC, formato raro, canvas demasiado grande…) usamos el archivo original
+    const fallback = () => { URL.revokeObjectURL(url); resolve(file) }
+
+    // Timeout de seguridad: si en 15 segundos no termina, usamos el original
+    const timer = setTimeout(fallback, 15_000)
+
+    img.onerror = () => { clearTimeout(timer); fallback() }
+
     img.onload = () => {
+      clearTimeout(timer)
       URL.revokeObjectURL(url)
-      let { width, height } = img
-      if (width > MAX_PX || height > MAX_PX) {
-        if (width > height) { height = Math.round(height * MAX_PX / width); width = MAX_PX }
-        else                { width = Math.round(width * MAX_PX / height); height = MAX_PX }
+      try {
+        let { width, height } = img
+        if (width > MAX_PX || height > MAX_PX) {
+          if (width > height) { height = Math.round(height * MAX_PX / width); width = MAX_PX }
+          else                { width = Math.round(width * MAX_PX / height); height = MAX_PX }
+        }
+        const canvas = document.createElement('canvas')
+        canvas.width  = width
+        canvas.height = height
+        canvas.getContext('2d').drawImage(img, 0, 0, width, height)
+        canvas.toBlob(blob => resolve(blob ?? file), 'image/jpeg', QUALITY)
+      } catch {
+        resolve(file)
       }
-      const canvas = document.createElement('canvas')
-      canvas.width  = width
-      canvas.height = height
-      canvas.getContext('2d').drawImage(img, 0, 0, width, height)
-      canvas.toBlob(resolve, 'image/jpeg', QUALITY)
     }
+
     img.src = url
   })
 }
