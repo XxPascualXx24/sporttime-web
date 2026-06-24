@@ -5,6 +5,8 @@ import { NoticiasProvider } from './context/NoticiasContext'
 import { EquiposProvider } from './context/EquiposContext'
 import { HistoriasProvider } from './context/HistoriasContext'
 import { PatrocinadoresProvider } from './context/PatrocinadoresContext'
+import { HistoriaPageProvider } from './context/HistoriaPageContext'
+import { GaleriaProvider } from './context/GaleriaContext'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import Home from './pages/Home'
@@ -26,6 +28,8 @@ import AdminHistorias from './admin/AdminHistorias'
 import AvisoLegal from './pages/AvisoLegal'
 import PoliticaPrivacidad from './pages/PoliticaPrivacidad'
 import AdminPatrocinadores from './admin/AdminPatrocinadores'
+import AdminHistoriaPage from './admin/AdminHistoriaPage'
+import AdminGaleria from './admin/AdminGaleria'
 import ScrollToTop from './components/ScrollToTop'
 
 export default function App() {
@@ -35,6 +39,8 @@ export default function App() {
         <EquiposProvider>
           <HistoriasProvider>
           <PatrocinadoresProvider>
+          <HistoriaPageProvider>
+          <GaleriaProvider>
             <BrowserRouter>
               <ScrollToTop />
               <Routes>
@@ -60,9 +66,13 @@ export default function App() {
                   <Route path="noticias/:id" element={<AdminNoticiaForm />} />
                   <Route path="historias" element={<AdminHistorias />} />
                   <Route path="patrocinadores" element={<AdminPatrocinadores />} />
+                  <Route path="historia-page" element={<AdminHistoriaPage />} />
+                  <Route path="galeria" element={<AdminGaleria />} />
                 </Route>
               </Routes>
             </BrowserRouter>
+          </GaleriaProvider>
+          </HistoriaPageProvider>
           </PatrocinadoresProvider>
           </HistoriasProvider>
         </EquiposProvider>
