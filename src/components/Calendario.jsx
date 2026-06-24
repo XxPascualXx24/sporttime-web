@@ -1,3 +1,4 @@
+import { useLandingConfig } from '../context/LandingConfigContext'
 import styles from './Calendario.module.css'
 
 const matches = [
@@ -6,6 +7,7 @@ const matches = [
 ]
 
 export default function Calendario() {
+  const { config } = useLandingConfig()
   return (
     <section id="calendario" className="section section-light" data-header-theme="light">
       <div className="container">
@@ -28,7 +30,10 @@ export default function Calendario() {
 
           <div className={styles.featuredCard}>
             <div className={styles.featuredImg}>
-              <span className={styles.imgLabel}>Foto partido</span>
+              {config.fotoPartido
+                ? <img src={config.fotoPartido} alt="Foto partido" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                : <span className={styles.imgLabel}>Foto partido</span>
+              }
             </div>
             <span className={styles.featuredLabel}>Próximos partidos</span>
           </div>

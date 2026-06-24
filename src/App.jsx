@@ -7,6 +7,7 @@ import { HistoriasProvider } from './context/HistoriasContext'
 import { PatrocinadoresProvider } from './context/PatrocinadoresContext'
 import { HistoriaPageProvider } from './context/HistoriaPageContext'
 import { GaleriaProvider } from './context/GaleriaContext'
+import { LandingConfigProvider } from './context/LandingConfigContext'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import Home from './pages/Home'
@@ -30,6 +31,7 @@ import PoliticaPrivacidad from './pages/PoliticaPrivacidad'
 import AdminPatrocinadores from './admin/AdminPatrocinadores'
 import AdminHistoriaPage from './admin/AdminHistoriaPage'
 import AdminGaleria from './admin/AdminGaleria'
+import AdminLandingImages from './admin/AdminLandingImages'
 import ScrollToTop from './components/ScrollToTop'
 
 export default function App() {
@@ -41,6 +43,7 @@ export default function App() {
           <PatrocinadoresProvider>
           <HistoriaPageProvider>
           <GaleriaProvider>
+          <LandingConfigProvider>
             <BrowserRouter>
               <ScrollToTop />
               <Routes>
@@ -68,9 +71,11 @@ export default function App() {
                   <Route path="patrocinadores" element={<AdminPatrocinadores />} />
                   <Route path="historia-page" element={<AdminHistoriaPage />} />
                   <Route path="galeria" element={<AdminGaleria />} />
+                  <Route path="landing-images" element={<AdminLandingImages />} />
                 </Route>
               </Routes>
             </BrowserRouter>
+          </LandingConfigProvider>
           </GaleriaProvider>
           </HistoriaPageProvider>
           </PatrocinadoresProvider>

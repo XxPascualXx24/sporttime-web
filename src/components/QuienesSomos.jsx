@@ -1,3 +1,4 @@
+import { useLandingConfig } from '../context/LandingConfigContext'
 import styles from './QuienesSomos.module.css'
 
 const stats = [
@@ -6,6 +7,7 @@ const stats = [
 ]
 
 export default function QuienesSomos() {
+  const { config } = useLandingConfig()
   return (
     <section id="quienes-somos" className={`section section-light`} data-header-theme="light">
       <div className="container">
@@ -13,7 +15,10 @@ export default function QuienesSomos() {
         <div className={styles.grid}>
           <div className={styles.imgWrap}>
             <div className={`placeholder ${styles.img}`}>
-              <span className="img-label">Foto del equipo</span>
+              {config.fotoEquipo
+                ? <img src={config.fotoEquipo} alt="Foto del equipo" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit' }} />
+                : <span className="img-label">Foto del equipo</span>
+              }
             </div>
             <p className={styles.founded}>Fundado el 8.03.2023</p>
           </div>
