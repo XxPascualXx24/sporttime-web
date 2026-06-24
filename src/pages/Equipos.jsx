@@ -22,7 +22,7 @@ export default function Equipos() {
               >
                 {!eq.photo && <span className={styles.imgLabel}>Foto del equipo</span>}
               </div>
-              <span className={styles.name}>{eq.name}</span>
+              <span className={`${styles.name} ${!eq.photo ? styles.nameBelow : ''}`}>{eq.name}</span>
             </Link>
           ))}
         </div>
