@@ -1,16 +1,19 @@
 import { useState } from 'react'
+import { doc, collection } from 'firebase/firestore'
+import { db } from '../firebase'
 import { useHistoriaPage } from '../context/HistoriaPageContext'
+import ImageUpload from './ImageUpload'
 import styles from './AdminHistoriaPage.module.css'
 
-/* ── helpers ── */
-const emptyCapitulo  = { titulo: '', fecha: '', texto: '', order: 0 }
+const emptyCapitulo   = { imagen: null, titulo: '', fecha: '', texto: '', order: 0 }
 const emptyCronologia = { year: '', mes: '', evento: '', order: 0 }
 const emptyPalmares   = { temporada: '', titulo: '', equipo: '', order: 0 }
 
-function Section({ title, items, empty, fields, onAdd, onUpdate, onDelete }) {
+function Section({ title, items, empty, fields, onAdd, onUpdate, onDelete, storageBase }) {
   const [showForm, setShowForm] = useState(false)
   const [form, setForm]         = useState(empty)
   const [editId, setEditId]     = useState(null)
+  const [newId]                 = useState(() => storageBase ? doc(collection(db, storageBase)).id : 'new')
 
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }))
 
@@ -45,11 +48,19 @@ function Section({ title, items, empty, fields, onAdd, onUpdate, onDelete }) {
       {showForm && (
         <form onSubmit={handleSubmit} className={styles.form}>
           {fields.map(f => (
-            <label key={f.key} className={styles.label}>
-              {f.label}
-              {f.type === 'textarea'
-                ? <textarea className={styles.textarea} rows={4} value={form[f.key]} onChange={e => set(f.key, e.target.value)} placeholder={f.placeholder ?? ''} />
-                : <input className={styles.input} type={f.type ?? 'text'} value={form[f.key]} onChange={e => set(f.key, e.target.value)} placeholder={f.placeholder ?? ''} />
+            <label key={f.key} className={f.type === 'image' ? styles.labelImage : styles.label}>
+              {f.label && <span>{f.label}</span>}
+              {f.type === 'image'
+                ? <ImageUpload
+                    label=""
+                    value={form[f.key]}
+                    onChange={v => set(f.key, v)}
+                    storagePath={`${storageBase}/${editId ?? newId}/${f.key}`}
+                    aspect={f.aspect ?? '4/3'}
+                  />
+                : f.type === 'textarea'
+                  ? <textarea className={styles.textarea} rows={4} value={form[f.key]} onChange={e => set(f.key, e.target.value)} placeholder={f.placeholder ?? ''} />
+                  : <input className={styles.input} type={f.type ?? 'text'} value={form[f.key]} onChange={e => set(f.key, e.target.value)} placeholder={f.placeholder ?? ''} />
               }
             </label>
           ))}
@@ -66,6 +77,9 @@ function Section({ title, items, empty, fields, onAdd, onUpdate, onDelete }) {
         )}
         {items.map(item => (
           <div key={item.id} className={styles.row}>
+            {item.imagen && (
+              <img src={item.imagen} className={styles.rowThumb} alt="" />
+            )}
             <div className={styles.rowInfo}>
               {fields.filter(f => f.preview).map(f => (
                 <span key={f.key} className={f.main ? styles.rowMain : styles.rowMeta}>
@@ -124,7 +138,9 @@ export default function AdminHistoriaPage() {
           title="Capítulos del slider principal"
           items={capitulos}
           empty={emptyCapitulo}
+          storageBase="historiaCapitulos"
           fields={[
+            { key: 'imagen', label: 'Foto del capítulo', type: 'image', aspect: '4/3' },
             { key: 'titulo', label: 'Título *', placeholder: 'Fundación', main: true, preview: true },
             { key: 'fecha',  label: 'Fecha',    placeholder: '8 mar 2023', preview: true },
             { key: 'texto',  label: 'Texto (separa párrafos con una línea en blanco)', type: 'textarea', placeholder: 'Escribe el contenido del capítulo...' },
@@ -137,20 +153,41 @@ export default function AdminHistoriaPage() {
       )}
 
       {tab === 'cronologia' && (
-        <Section
-          title="Eventos de la cronología"
-          items={cronologia}
-          empty={emptyCronologia}
-          fields={[
-            { key: 'year',   label: 'Año *',  placeholder: '2023', main: true, preview: true },
-            { key: 'mes',    label: 'Mes',    placeholder: 'Mar', preview: true },
-            { key: 'evento', label: 'Descripción del evento *', type: 'textarea', placeholder: 'El 8 de marzo de 2023 nace el club...' },
-            { key: 'order',  label: 'Orden', type: 'number' },
-          ]}
-          onAdd={addCronologia}
-          onUpdate={updateCronologia}
-          onDelete={deleteCronologia}
-        />
+        <>
+          <Section
+            title="Eventos de la cronología"
+            items={cronologia}
+            empty={emptyCronologia}
+            fields={[
+              { key: 'year',   label: 'Año *',  placeholder: '2023', main: true, preview: true },
+              { key: 'mes',    label: 'Mes',    placeholder: 'Mar', preview: true },
+              { key: 'evento', label: 'Descripción del evento *', type: 'textarea', placeholder: 'El 8 de marzo de 2023 nace el club...' },
+              { key: 'order',  label: 'Orden', type: 'number' },
+            ]}
+            onAdd={addCronologia}
+            onUpdate={updateCronologia}
+            onDelete={deleteCronologia}
+          />
+
+          {cronologia.length > 0 && (
+            <div className={styles.preview}>
+              <h3 className={styles.previewTitle}>Vista previa</h3>
+              <div className={styles.previewScroll}>
+                <div className={styles.previewLine} />
+                {cronologia.map((e, i) => (
+                  <div key={e.id ?? i} className={styles.previewItem}>
+                    <div className={styles.previewTop}>
+                      <span className={styles.previewYear}>{e.year}</span>
+                      {e.mes && <span className={styles.previewMes}>{e.mes}</span>}
+                    </div>
+                    <div className={`${styles.previewDot} ${i === 0 ? styles.previewDotFirst : ''}`} />
+                    <p className={styles.previewText}>{e.evento}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </>
       )}
 
       {tab === 'palmares' && (

@@ -127,3 +127,116 @@
   font-size: 12px; font-weight: 600; cursor: pointer; color: #ef4444;
 }
 .btnDel:hover { background: #fee2e2; }
+
+/* Thumbnail in list rows (for capítulos with image) */
+.rowThumb {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+/* Image field label variant */
+.labelImage {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--dark);
+}
+
+/* ── Cronología preview ── */
+.preview {
+  margin-top: 32px;
+  padding: 20px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+}
+
+.previewTitle {
+  font-size: 13px;
+  font-weight: 700;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 24px;
+}
+
+.previewScroll {
+  position: relative;
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.previewLine {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 72px;
+  height: 2px;
+  background: #e5e7eb;
+  pointer-events: none;
+}
+
+.previewItem {
+  min-width: 160px;
+  flex: 1;
+  padding: 0 16px;
+  display: grid;
+  grid-template-rows: 60px 20px 1fr;
+}
+
+.previewTop {
+  align-self: end;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 6px;
+}
+
+.previewYear {
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--dark);
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.previewMes {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--pink);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 2px;
+}
+
+.previewDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--dark);
+  border: 2px solid #f9fafb;
+  box-shadow: 0 0 0 2px var(--dark);
+  position: relative;
+  z-index: 1;
+  align-self: center;
+}
+
+.previewDotFirst {
+  background: var(--pink);
+  box-shadow: 0 0 0 2px var(--pink);
+  width: 16px;
+  height: 16px;
+}
+
+.previewText {
+  font-size: 12px;
+  color: #6b7280;
+  line-height: 1.5;
+  padding-top: 10px;
+}

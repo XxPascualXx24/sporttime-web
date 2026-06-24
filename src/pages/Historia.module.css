@@ -32,6 +32,13 @@
   min-height: 360px;
 }
 
+.heroImgEl {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 .heroContent {
   display: flex;
   flex-direction: column;
@@ -289,6 +296,41 @@
 .pos { font-weight: 800; color: var(--dark); width: 40px; }
 .nombre { font-weight: 700; color: var(--dark); }
 .goles { font-weight: 800; color: var(--pink); }
+
+/* ── Timeline pagination ── */
+.cronNav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.cronNavBtn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1.5px solid #e5e7eb;
+  background: #fff;
+  font-size: 22px;
+  color: var(--dark);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.15s, color 0.15s;
+  line-height: 1;
+}
+.cronNavBtn:hover:not(:disabled) { border-color: var(--pink); color: var(--pink); }
+.cronNavBtn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+.cronNavInfo {
+  font-size: 14px;
+  font-weight: 700;
+  color: #6b7280;
+  min-width: 48px;
+  text-align: center;
+}
 
 /* ── Responsive ── */
 @media (max-width: 860px) {

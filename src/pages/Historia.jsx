@@ -57,17 +57,23 @@ function parseTexto(raw) {
   return []
 }
 
+const CRON_PAGE_SIZE = 4
+
 export default function Historia() {
   const { capitulos, cronologia, palmares } = useHistoriaPage()
-  const [capIdx, setCapIdx] = useState(0)
-  const [tab, setTab] = useState('cronologia')
+  const [capIdx, setCapIdx]     = useState(0)
+  const [tab, setTab]           = useState('cronologia')
+  const [cronPage, setCronPage] = useState(0)
 
   const caps  = capitulos.length  > 0 ? capitulos  : CAP_DEFAULT
   const crons = cronologia.length > 0 ? cronologia : CRON_DEFAULT
   const palms = palmares.length   > 0 ? palmares   : PALM_DEFAULT
 
-  const cap = caps[Math.min(capIdx, caps.length - 1)]
+  const cap   = caps[Math.min(capIdx, caps.length - 1)]
   const texto = parseTexto(cap?.texto)
+
+  const totalCronPages = Math.ceil(crons.length / CRON_PAGE_SIZE)
+  const visibleCrons   = crons.slice(cronPage * CRON_PAGE_SIZE, (cronPage + 1) * CRON_PAGE_SIZE)
 
   return (
     <main className={styles.page}>
@@ -76,7 +82,10 @@ export default function Historia() {
       <section className={styles.hero}>
         <div className={styles.heroGrid}>
           <div className={styles.heroImg}>
-            <div className={styles.imgPlaceholder} />
+            {cap?.imagen
+              ? <img src={cap.imagen} alt={cap?.titulo} className={styles.heroImgEl} />
+              : <div className={styles.imgPlaceholder} />
+            }
           </div>
           <div className={styles.heroContent}>
             <span className={styles.heroDate}>{cap?.fecha}</span>
@@ -119,18 +128,38 @@ export default function Historia() {
           </div>
 
           {tab === 'cronologia' && (
-            <div className={styles.timeline}>
-              <div className={styles.timelineLine} />
-              {crons.map((e, i) => (
-                <div key={e.id ?? i} className={styles.timelineItem}>
-                  <div className={styles.timelineTop}>
-                    <span className={styles.timelineYear}>{e.year}</span>
-                    {e.mes && <span className={styles.timelineMes}>{e.mes}</span>}
-                  </div>
-                  <div className={`${styles.timelineDot} ${i === 0 ? styles.timelineDotActive : ''}`} />
-                  <p className={styles.timelineText}>{e.evento}</p>
+            <div>
+              <div className={styles.timeline}>
+                <div className={styles.timelineLine} />
+                {visibleCrons.map((e, i) => {
+                  const globalIdx = cronPage * CRON_PAGE_SIZE + i
+                  return (
+                    <div key={e.id ?? globalIdx} className={styles.timelineItem}>
+                      <div className={styles.timelineTop}>
+                        <span className={styles.timelineYear}>{e.year}</span>
+                        {e.mes && <span className={styles.timelineMes}>{e.mes}</span>}
+                      </div>
+                      <div className={`${styles.timelineDot} ${globalIdx === 0 ? styles.timelineDotActive : ''}`} />
+                      <p className={styles.timelineText}>{e.evento}</p>
+                    </div>
+                  )
+                })}
+              </div>
+              {totalCronPages > 1 && (
+                <div className={styles.cronNav}>
+                  <button
+                    className={styles.cronNavBtn}
+                    onClick={() => setCronPage(p => Math.max(0, p - 1))}
+                    disabled={cronPage === 0}
+                  >‹</button>
+                  <span className={styles.cronNavInfo}>{cronPage + 1} / {totalCronPages}</span>
+                  <button
+                    className={styles.cronNavBtn}
+                    onClick={() => setCronPage(p => Math.min(totalCronPages - 1, p + 1))}
+                    disabled={cronPage === totalCronPages - 1}
+                  >›</button>
                 </div>
-              ))}
+              )}
             </div>
           )}
 
