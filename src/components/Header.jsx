@@ -3,7 +3,6 @@ import { Link, NavLink, useLocation } from 'react-router-dom'
 import styles from './Header.module.css'
 
 const leftLinks = [
-  { label: 'Tienda',        to: '/tienda' },
   { label: 'Noticias',      to: '/noticias' },
   { label: 'Historia',      to: '/historia' },
   { label: 'Clasificación', to: '/clasificacion' },
