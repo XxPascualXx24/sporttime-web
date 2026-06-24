@@ -2,6 +2,11 @@ import { useRef, useState } from 'react'
 import styles from './ImageUpload.module.css'
 
 const CLOUD_NAME    = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME
+
+function autoFormat(url) {
+  if (!url || !url.includes('cloudinary.com')) return url
+  return url.includes('/upload/f_auto') ? url : url.replace('/upload/', '/upload/f_auto,q_auto/')
+}
 const UPLOAD_PRESET = 'sporttime'
 const UPLOAD_URL    = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`
 
@@ -70,8 +75,11 @@ export default function ImageUpload({ value, onChange, label = 'Imagen', aspect 
 
       const res  = await fetch(UPLOAD_URL, { method: 'POST', body: form })
       const data = await res.json()
-      if (data.secure_url) onChange(data.secure_url)
-      else throw new Error(data.error?.message ?? 'Upload failed')
+      if (data.secure_url) {
+        // Añadir f_auto,q_auto para que Cloudinary convierta cualquier formato
+        // (HEIC, AVIF, etc.) al formato más compatible con el navegador
+        onChange(autoFormat(data.secure_url))
+      } else throw new Error(data.error?.message ?? 'Upload failed')
     } catch (err) {
       console.error('Error subiendo imagen:', err)
     } finally {
@@ -92,7 +100,7 @@ export default function ImageUpload({ value, onChange, label = 'Imagen', aspect 
         onKeyDown={e => e.key === 'Enter' && !uploading && inputRef.current.click()}
       >
         {value ? (
-          <img src={value} className={styles.img} alt="preview" />
+          <img src={autoFormat(value)} className={styles.img} alt="preview" />
         ) : (
           <div className={styles.placeholder}>
             <span className={styles.icon}>{uploading ? '⏳' : '↑'}</span>

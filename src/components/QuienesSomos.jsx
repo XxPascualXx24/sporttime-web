@@ -1,6 +1,11 @@
 import { useLandingConfig } from '../context/LandingConfigContext'
 import styles from './QuienesSomos.module.css'
 
+function autoFormat(url) {
+  if (!url || !url.includes('cloudinary.com')) return url
+  return url.includes('/upload/f_auto') ? url : url.replace('/upload/', '/upload/f_auto,q_auto/')
+}
+
 const stats = [
   { value: '10', label: 'Equipos' },
   { value: '+138', label: 'Jugadoras' },
@@ -15,7 +20,7 @@ export default function QuienesSomos() {
         <div className={styles.grid}>
           <div className={styles.imgWrap}>
             {config.fotoEquipo
-              ? <img src={config.fotoEquipo} alt="Foto del equipo" className={styles.img} style={{ objectFit: 'cover', borderRadius: '12px', display: 'block' }} />
+              ? <img src={autoFormat(config.fotoEquipo)} alt="Foto del equipo" className={styles.img} style={{ objectFit: 'cover', borderRadius: '12px', display: 'block' }} />
               : <div className={`placeholder ${styles.img}`}><span className="img-label">Foto del equipo</span></div>
             }
             <p className={styles.founded}>Fundado el 8.03.2023</p>
