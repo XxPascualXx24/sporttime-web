@@ -4,6 +4,13 @@ import styles from './AdminLandingImages.module.css'
 
 const SLOTS = [
   {
+    key: 'fondoHero',
+    label: 'Fondo principal (Hero)',
+    desc: 'Imagen de fondo de la sección principal "Una identitat, un equip". Se superpone sobre el degradado rosa.',
+    storagePath: 'landing/fondoHero',
+    aspect: '16/9',
+  },
+  {
     key: 'fotoEquipo',
     label: 'Foto del equipo',
     desc: 'Aparece en la sección "Quiénes somos" de la página de inicio.',
