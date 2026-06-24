@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from 'react'
+import { createContext, useContext, useState, useEffect, useMemo, useCallback } from 'react'
 import { collection, doc, onSnapshot, setDoc, updateDoc, deleteDoc } from 'firebase/firestore'
 import { db } from '../firebase'
 
@@ -18,22 +18,27 @@ export function HistoriasProvider({ children }) {
     return unsub
   }, [])
 
-  const addHistoria = async (data) => {
+  const addHistoria = useCallback(async (data) => {
     const id = doc(collection(db, 'historias')).id
     await setDoc(doc(db, 'historias', id), { ...data, createdAt: new Date().toISOString() })
     return id
-  }
+  }, [])
 
-  const updateHistoria = async (id, data) => {
+  const updateHistoria = useCallback(async (id, data) => {
     await updateDoc(doc(db, 'historias', id), data)
-  }
+  }, [])
 
-  const deleteHistoria = async (id) => {
+  const deleteHistoria = useCallback(async (id) => {
     await deleteDoc(doc(db, 'historias', id))
-  }
+  }, [])
+
+  const value = useMemo(
+    () => ({ historias, loading, addHistoria, updateHistoria, deleteHistoria }),
+    [historias, loading, addHistoria, updateHistoria, deleteHistoria]
+  )
 
   return (
-    <HistoriasContext.Provider value={{ historias, loading, addHistoria, updateHistoria, deleteHistoria }}>
+    <HistoriasContext.Provider value={value}>
       {children}
     </HistoriasContext.Provider>
   )

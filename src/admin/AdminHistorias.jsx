@@ -41,45 +41,6 @@ export default function AdminHistorias() {
 
   const cancelEdit = () => { setEditingId(null); setForm(empty) }
 
-  const FormPanel = ({ onSubmit, isEdit }) => (
-    <form onSubmit={onSubmit} className={styles.form}>
-      <h3 className={styles.formTitle}>{isEdit ? 'Editar historia' : 'Nueva historia'}</h3>
-      <div className={styles.formGrid}>
-        <div className={styles.photoCol}>
-          <ImageUpload
-            label="Imagen"
-            value={form.image}
-            onChange={v => set('image', v)}
-            storagePath={`historias/${isEdit ? editingId : newId}/cover`}
-            aspect="16/9"
-          />
-        </div>
-        <div className={styles.fields}>
-          <label className={styles.label}>
-            Título *
-            <input className={styles.input} type="text" value={form.title} onChange={e => set('title', e.target.value)} required />
-          </label>
-          <label className={styles.label}>
-            Tag <span className={styles.optional}>(opcional)</span>
-            <input className={styles.input} type="text" placeholder="Nuevo, Especial..." value={form.tag} onChange={e => set('tag', e.target.value)} />
-          </label>
-          <label className={styles.label}>
-            Fecha <span className={styles.optional}>(ej: 8 jun 2026)</span>
-            <input className={styles.input} type="text" placeholder="8 jun 2026" value={form.date} onChange={e => set('date', e.target.value)} />
-          </label>
-          <label className={styles.label}>
-            Enlace <span className={styles.optional}>(opcional)</span>
-            <input className={styles.input} type="url" placeholder="https://..." value={form.link} onChange={e => set('link', e.target.value)} />
-          </label>
-          <div className={styles.btns}>
-            <button type="submit" className={styles.btnPink}>{isEdit ? 'Guardar cambios' : 'Añadir historia'}</button>
-            <button type="button" className={styles.btnGhost} onClick={isEdit ? cancelEdit : () => { setShowForm(false); setForm(empty) }}>Cancelar</button>
-          </div>
-        </div>
-      </div>
-    </form>
-  )
-
   return (
     <div className={styles.page}>
       <div className={styles.topBar}>
@@ -89,7 +50,44 @@ export default function AdminHistorias() {
         )}
       </div>
 
-      {showForm && <FormPanel onSubmit={handleAdd} isEdit={false} />}
+      {showForm && (
+        <form onSubmit={handleAdd} className={styles.form}>
+          <h3 className={styles.formTitle}>Nueva historia</h3>
+          <div className={styles.formGrid}>
+            <div className={styles.photoCol}>
+              <ImageUpload
+                label="Imagen"
+                value={form.image}
+                onChange={v => set('image', v)}
+                storagePath={`historias/${newId}/cover`}
+                aspect="16/9"
+              />
+            </div>
+            <div className={styles.fields}>
+              <label className={styles.label}>
+                Título *
+                <input className={styles.input} type="text" value={form.title} onChange={e => set('title', e.target.value)} required />
+              </label>
+              <label className={styles.label}>
+                Tag <span className={styles.optional}>(opcional)</span>
+                <input className={styles.input} type="text" placeholder="Nuevo, Especial..." value={form.tag} onChange={e => set('tag', e.target.value)} />
+              </label>
+              <label className={styles.label}>
+                Fecha <span className={styles.optional}>(ej: 8 jun 2026)</span>
+                <input className={styles.input} type="text" placeholder="8 jun 2026" value={form.date} onChange={e => set('date', e.target.value)} />
+              </label>
+              <label className={styles.label}>
+                Enlace <span className={styles.optional}>(opcional)</span>
+                <input className={styles.input} type="url" placeholder="https://..." value={form.link} onChange={e => set('link', e.target.value)} />
+              </label>
+              <div className={styles.btns}>
+                <button type="submit" className={styles.btnPink}>Añadir historia</button>
+                <button type="button" className={styles.btnGhost} onClick={() => { setShowForm(false); setForm(empty) }}>Cancelar</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      )}
 
       <div className={styles.list}>
         {historias.length === 0 && !showForm && (
@@ -98,7 +96,42 @@ export default function AdminHistorias() {
         {historias.map(h => (
           <div key={h.id}>
             {editingId === h.id ? (
-              <FormPanel onSubmit={handleUpdate} isEdit={true} />
+              <form onSubmit={handleUpdate} className={styles.form}>
+                <h3 className={styles.formTitle}>Editar historia</h3>
+                <div className={styles.formGrid}>
+                  <div className={styles.photoCol}>
+                    <ImageUpload
+                      label="Imagen"
+                      value={form.image}
+                      onChange={v => set('image', v)}
+                      storagePath={`historias/${editingId}/cover`}
+                      aspect="16/9"
+                    />
+                  </div>
+                  <div className={styles.fields}>
+                    <label className={styles.label}>
+                      Título *
+                      <input className={styles.input} type="text" value={form.title} onChange={e => set('title', e.target.value)} required />
+                    </label>
+                    <label className={styles.label}>
+                      Tag <span className={styles.optional}>(opcional)</span>
+                      <input className={styles.input} type="text" placeholder="Nuevo, Especial..." value={form.tag} onChange={e => set('tag', e.target.value)} />
+                    </label>
+                    <label className={styles.label}>
+                      Fecha <span className={styles.optional}>(ej: 8 jun 2026)</span>
+                      <input className={styles.input} type="text" placeholder="8 jun 2026" value={form.date} onChange={e => set('date', e.target.value)} />
+                    </label>
+                    <label className={styles.label}>
+                      Enlace <span className={styles.optional}>(opcional)</span>
+                      <input className={styles.input} type="url" placeholder="https://..." value={form.link} onChange={e => set('link', e.target.value)} />
+                    </label>
+                    <div className={styles.btns}>
+                      <button type="submit" className={styles.btnPink}>Guardar cambios</button>
+                      <button type="button" className={styles.btnGhost} onClick={cancelEdit}>Cancelar</button>
+                    </div>
+                  </div>
+                </div>
+              </form>
             ) : (
               <div className={styles.row}>
                 <div className={styles.thumb}>

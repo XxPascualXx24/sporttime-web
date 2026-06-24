@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from 'react'
+import { createContext, useContext, useState, useEffect, useMemo, useCallback } from 'react'
 import { collection, doc, onSnapshot, setDoc, updateDoc, deleteDoc } from 'firebase/firestore'
 import { db } from '../firebase'
 
@@ -32,6 +32,10 @@ function makeCRUD(colName) {
   }
 }
 
+const capCRUD  = makeCRUD('historiaCapitulos')
+const cronCRUD = makeCRUD('historiaCronologia')
+const palmCRUD = makeCRUD('historiaPalmares')
+
 export function HistoriaPageProvider({ children }) {
   const [capitulos, loadingCap]   = useCollection('historiaCapitulos', byOrder)
   const [cronologia, loadingCron] = useCollection('historiaCronologia', byOrder)
@@ -39,17 +43,15 @@ export function HistoriaPageProvider({ children }) {
 
   const loading = loadingCap || loadingCron || loadingPalm
 
-  const capCRUD  = makeCRUD('historiaCapitulos')
-  const cronCRUD = makeCRUD('historiaCronologia')
-  const palmCRUD = makeCRUD('historiaPalmares')
+  const value = useMemo(() => ({
+    loading,
+    capitulos,  addCapitulo:  capCRUD.add,  updateCapitulo:  capCRUD.update,  deleteCapitulo:  capCRUD.remove,
+    cronologia, addCronologia: cronCRUD.add, updateCronologia: cronCRUD.update, deleteCronologia: cronCRUD.remove,
+    palmares,   addPalmares:   palmCRUD.add, updatePalmares:   palmCRUD.update, deletePalmares:   palmCRUD.remove,
+  }), [loading, capitulos, cronologia, palmares])
 
   return (
-    <HistoriaPageContext.Provider value={{
-      loading,
-      capitulos,  addCapitulo:  capCRUD.add,  updateCapitulo:  capCRUD.update,  deleteCapitulo:  capCRUD.remove,
-      cronologia, addCronologia: cronCRUD.add, updateCronologia: cronCRUD.update, deleteCronologia: cronCRUD.remove,
-      palmares,   addPalmares:   palmCRUD.add, updatePalmares:   palmCRUD.update, deletePalmares:   palmCRUD.remove,
-    }}>
+    <HistoriaPageContext.Provider value={value}>
       {children}
     </HistoriaPageContext.Provider>
   )

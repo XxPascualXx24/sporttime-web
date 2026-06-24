@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from 'react'
+import { createContext, useContext, useState, useEffect, useMemo, useCallback } from 'react'
 import { collection, doc, onSnapshot, setDoc, updateDoc, deleteDoc } from 'firebase/firestore'
 import { db } from '../firebase'
 
@@ -18,22 +18,27 @@ export function PatrocinadoresProvider({ children }) {
     return unsub
   }, [])
 
-  const addPatrocinador = async (data) => {
+  const addPatrocinador = useCallback(async (data) => {
     const id = doc(collection(db, 'patrocinadores')).id
     await setDoc(doc(db, 'patrocinadores', id), { ...data, createdAt: new Date().toISOString() })
     return id
-  }
+  }, [])
 
-  const updatePatrocinador = async (id, data) => {
+  const updatePatrocinador = useCallback(async (id, data) => {
     await updateDoc(doc(db, 'patrocinadores', id), data)
-  }
+  }, [])
 
-  const deletePatrocinador = async (id) => {
+  const deletePatrocinador = useCallback(async (id) => {
     await deleteDoc(doc(db, 'patrocinadores', id))
-  }
+  }, [])
+
+  const value = useMemo(
+    () => ({ patrocinadores, loading, addPatrocinador, updatePatrocinador, deletePatrocinador }),
+    [patrocinadores, loading, addPatrocinador, updatePatrocinador, deletePatrocinador]
+  )
 
   return (
-    <PatrocinadoresContext.Provider value={{ patrocinadores, loading, addPatrocinador, updatePatrocinador, deletePatrocinador }}>
+    <PatrocinadoresContext.Provider value={value}>
       {children}
     </PatrocinadoresContext.Provider>
   )

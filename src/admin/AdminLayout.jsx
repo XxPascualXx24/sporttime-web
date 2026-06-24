@@ -9,7 +9,6 @@ const navItems = [
   { label: 'Historias', to: '/admin/historias', icon: '📖' },
   { label: 'Patrocinadores', to: '/admin/patrocinadores', icon: '🤝' },
   { label: 'Historia',      to: '/admin/historia-page',  icon: '📜' },
-  { label: 'Galería',       to: '/admin/galeria',         icon: '🖼️' },
   { label: 'Fotos landing', to: '/admin/landing-images',  icon: '🏠' },
 ]
 

@@ -41,69 +41,6 @@ export default function AdminPatrocinadores() {
 
   const cancelEdit = () => { setEditingId(null); setForm(empty) }
 
-  const FormPanel = ({ onSubmit, isEdit }) => (
-    <form onSubmit={onSubmit} className={styles.form}>
-      <h3 className={styles.formTitle}>{isEdit ? 'Editar patrocinador' : 'Nuevo patrocinador'}</h3>
-      <div className={styles.formGrid}>
-        <div className={styles.logoCol}>
-          <ImageUpload
-            label="Logo"
-            value={form.logo}
-            onChange={v => set('logo', v)}
-            storagePath={`patrocinadores/${isEdit ? editingId : newId}/logo`}
-            aspect="16/9"
-          />
-          <p className={styles.hint}>Recomendado: fondo blanco o transparente, formato PNG o SVG guardado como PNG.</p>
-        </div>
-        <div className={styles.fields}>
-          <label className={styles.label}>
-            Nombre del patrocinador *
-            <input
-              className={styles.input}
-              type="text"
-              value={form.name}
-              onChange={e => set('name', e.target.value)}
-              required
-              placeholder="Empresa S.L."
-            />
-          </label>
-          <label className={styles.label}>
-            Web <span className={styles.optional}>(opcional)</span>
-            <input
-              className={styles.input}
-              type="url"
-              placeholder="https://..."
-              value={form.link}
-              onChange={e => set('link', e.target.value)}
-            />
-          </label>
-          <label className={styles.label}>
-            Orden <span className={styles.optional}>(número menor = antes)</span>
-            <input
-              className={styles.input}
-              type="number"
-              min="0"
-              value={form.order}
-              onChange={e => set('order', e.target.value)}
-            />
-          </label>
-          <div className={styles.btns}>
-            <button type="submit" className={styles.btnPink}>
-              {isEdit ? 'Guardar cambios' : 'Añadir patrocinador'}
-            </button>
-            <button
-              type="button"
-              className={styles.btnGhost}
-              onClick={isEdit ? cancelEdit : () => { setShowForm(false); setForm(empty) }}
-            >
-              Cancelar
-            </button>
-          </div>
-        </div>
-      </div>
-    </form>
-  )
-
   return (
     <div className={styles.page}>
       <div className={styles.topBar}>
@@ -116,7 +53,60 @@ export default function AdminPatrocinadores() {
         )}
       </div>
 
-      {showForm && <FormPanel onSubmit={handleAdd} isEdit={false} />}
+      {showForm && (
+        <form onSubmit={handleAdd} className={styles.form}>
+          <h3 className={styles.formTitle}>Nuevo patrocinador</h3>
+          <div className={styles.formGrid}>
+            <div className={styles.logoCol}>
+              <ImageUpload
+                label="Logo"
+                value={form.logo}
+                onChange={v => set('logo', v)}
+                storagePath={`patrocinadores/${newId}/logo`}
+                aspect="16/9"
+              />
+              <p className={styles.hint}>Recomendado: fondo blanco o transparente, formato PNG o SVG guardado como PNG.</p>
+            </div>
+            <div className={styles.fields}>
+              <label className={styles.label}>
+                Nombre del patrocinador *
+                <input
+                  className={styles.input}
+                  type="text"
+                  value={form.name}
+                  onChange={e => set('name', e.target.value)}
+                  required
+                  placeholder="Empresa S.L."
+                />
+              </label>
+              <label className={styles.label}>
+                Web <span className={styles.optional}>(opcional)</span>
+                <input
+                  className={styles.input}
+                  type="url"
+                  placeholder="https://..."
+                  value={form.link}
+                  onChange={e => set('link', e.target.value)}
+                />
+              </label>
+              <label className={styles.label}>
+                Orden <span className={styles.optional}>(número menor = antes)</span>
+                <input
+                  className={styles.input}
+                  type="number"
+                  min="0"
+                  value={form.order}
+                  onChange={e => set('order', e.target.value)}
+                />
+              </label>
+              <div className={styles.btns}>
+                <button type="submit" className={styles.btnPink}>Añadir patrocinador</button>
+                <button type="button" className={styles.btnGhost} onClick={() => { setShowForm(false); setForm(empty) }}>Cancelar</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      )}
 
       <div className={styles.list}>
         {patrocinadores.length === 0 && !showForm && (
@@ -125,7 +115,58 @@ export default function AdminPatrocinadores() {
         {patrocinadores.map(p => (
           <div key={p.id}>
             {editingId === p.id ? (
-              <FormPanel onSubmit={handleUpdate} isEdit={true} />
+              <form onSubmit={handleUpdate} className={styles.form}>
+                <h3 className={styles.formTitle}>Editar patrocinador</h3>
+                <div className={styles.formGrid}>
+                  <div className={styles.logoCol}>
+                    <ImageUpload
+                      label="Logo"
+                      value={form.logo}
+                      onChange={v => set('logo', v)}
+                      storagePath={`patrocinadores/${editingId}/logo`}
+                      aspect="16/9"
+                    />
+                    <p className={styles.hint}>Recomendado: fondo blanco o transparente, formato PNG o SVG guardado como PNG.</p>
+                  </div>
+                  <div className={styles.fields}>
+                    <label className={styles.label}>
+                      Nombre del patrocinador *
+                      <input
+                        className={styles.input}
+                        type="text"
+                        value={form.name}
+                        onChange={e => set('name', e.target.value)}
+                        required
+                        placeholder="Empresa S.L."
+                      />
+                    </label>
+                    <label className={styles.label}>
+                      Web <span className={styles.optional}>(opcional)</span>
+                      <input
+                        className={styles.input}
+                        type="url"
+                        placeholder="https://..."
+                        value={form.link}
+                        onChange={e => set('link', e.target.value)}
+                      />
+                    </label>
+                    <label className={styles.label}>
+                      Orden <span className={styles.optional}>(número menor = antes)</span>
+                      <input
+                        className={styles.input}
+                        type="number"
+                        min="0"
+                        value={form.order}
+                        onChange={e => set('order', e.target.value)}
+                      />
+                    </label>
+                    <div className={styles.btns}>
+                      <button type="submit" className={styles.btnPink}>Guardar cambios</button>
+                      <button type="button" className={styles.btnGhost} onClick={cancelEdit}>Cancelar</button>
+                    </div>
+                  </div>
+                </div>
+              </form>
             ) : (
               <div className={styles.row}>
                 <div className={styles.thumb}>
