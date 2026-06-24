@@ -47,7 +47,7 @@ export default function ImageUpload({ value, onChange, label = 'Imagen', aspect 
       const form = new FormData()
       form.append('file', blob, 'image.jpg')
       form.append('upload_preset', UPLOAD_PRESET)
-      if (storagePath) form.append('public_id', storagePath.replace(/\//g, '_'))
+      if (storagePath) form.append('public_id', `${storagePath.replace(/\//g, '_')}_${Date.now()}`)
 
       const res  = await fetch(UPLOAD_URL, { method: 'POST', body: form })
       const data = await res.json()
