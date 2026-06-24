@@ -23,7 +23,6 @@ const INCLUYE = [
   { icon: '💬', text: 'Charlas informativas' },
 ]
 
-const PRECIO = { inscripcion: 390, renovacion: 300 }
 
 const emptyStep1 = { nombre: '', apellidos: '', fechaNacimiento: '', dni: '', categoria: '' }
 const emptyStep2 = {
@@ -475,22 +474,6 @@ export default function Inscripciones() {
                   </li>
                 ))}
               </ul>
-              <div className={styles.price}>
-                <span className={styles.priceAmount}>{PRECIO[tab]}€</span>
-                <span className={styles.pricePer}>/al año</span>
-              </div>
-            </div>
-
-            <div className={styles.cardPayment}>
-              <div className={styles.cardPaymentHeader}>
-                <h4 className={styles.cardTitle}>Pagos online</h4>
-                <span className={styles.cardIcon}>💳</span>
-              </div>
-              <p className={styles.cardText}>
-                Paga de forma segura con tarjeta, transferencia o domiciliación bancaria.
-                Plataforma certificada SSL.
-              </p>
-              <a href="#" className={styles.btnPayment}>Ir al portal de pagos</a>
             </div>
           </div>
         </div>
